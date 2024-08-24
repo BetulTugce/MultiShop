@@ -22,7 +22,7 @@ namespace MultiShop.Catalog.Repositories.Concrete
 
 		public async Task<T> GetByIdAsync(string id)
 		{
-			return await _collection.Find(Builders<T>.Filter.Eq("_id", id)).FirstOrDefaultAsync();
+			return await _collection.Find(Builders<T>.Filter.Eq("Id", id)).FirstOrDefaultAsync();
 		}
 
 		public async Task CreateAsync(T entity)
@@ -33,12 +33,14 @@ namespace MultiShop.Catalog.Repositories.Concrete
 		public async Task UpdateAsync(T entity)
 		{
 			var id = entity.GetType().GetProperty("Id").GetValue(entity, null).ToString();
-			await _collection.ReplaceOneAsync(Builders<T>.Filter.Eq("_id", id), entity);
+			await _collection.ReplaceOneAsync(Builders<T>.Filter.Eq("Id", id), entity);
+
+			//await _collection.FindOneAndReplaceAsync(entity.GetType().GetProperty("Id").GetValue(entity).ToString(), entity);
 		}
 
 		public async Task DeleteAsync(string id)
 		{
-			await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("_id", id));
+			await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("Id", id));
 		}
 	}
 }
