@@ -6,7 +6,7 @@ namespace MultiShop.Catalog.Repositories.Concrete
 {
 	public class GenericRepository<T> : IGenericRepository<T> where T : class
 	{
-		private readonly IMongoCollection<T> _collection;
+		protected readonly IMongoCollection<T> _collection;
 
 		public GenericRepository(IDatabaseSettings databaseSettings, string collectionName)
 		{

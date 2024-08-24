@@ -51,5 +51,16 @@ namespace MultiShop.Catalog.Controllers
 			await _productService.UpdateProductAsync(updateProductDto);
 			return Ok();
 		}
+
+		[HttpPost("[action]")]
+		public async Task<IActionResult> GetProductsByPage(int page, int size)
+		{
+			var products = await _productService.GetProductsByPageAsync(page, size);
+			if (!products.Any())
+			{
+				return NotFound();
+			}
+			return Ok(products);
+		}
 	}
 }
