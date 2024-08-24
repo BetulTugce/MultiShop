@@ -1,4 +1,5 @@
 ﻿using MultiShop.Catalog.Dtos.ProductDtos;
+using MultiShop.Catalog.Entities;
 
 namespace MultiShop.Catalog.Services.Abstractions
 {
@@ -11,5 +12,6 @@ namespace MultiShop.Catalog.Services.Abstractions
 		Task<GetByIdProductDto> GetProductByIdAsync(string id);
 
 		Task<List<ResultProductDto>> GetProductsByPageAsync(int page, int size);
+		Task<List<ResultProductDto>> GetProductsByCategoryAndPageAsync(string categoryId, int page, int size);
 	}
 }

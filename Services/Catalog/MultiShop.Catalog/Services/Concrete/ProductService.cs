@@ -41,6 +41,12 @@ namespace MultiShop.Catalog.Services.Concrete
 			return _mapper.Map<GetByIdProductDto>(product);
 		}
 
+		public async Task<List<ResultProductDto>> GetProductsByCategoryAndPageAsync(string categoryId, int page, int size)
+		{
+			var products = await _productRepository.GetProductsByCategoryAndPageAsync(categoryId, page, size);
+			return _mapper.Map<List<ResultProductDto>>(products);
+		}
+
 		public async Task<List<ResultProductDto>> GetProductsByPageAsync(int page, int size)
 		{
 			var products = await _productRepository.GetProductsByPageAsync(page, size);

@@ -52,6 +52,7 @@ namespace MultiShop.Catalog.Controllers
 			return Ok();
 		}
 
+		// Method adı dinamik olarak routea ekleniyor.. /api/ControllerName/GetProductsByPage
 		[HttpPost("[action]")]
 		public async Task<IActionResult> GetProductsByPage(int page, int size)
 		{
@@ -59,6 +60,19 @@ namespace MultiShop.Catalog.Controllers
 			if (!products.Any())
 			{
 				return NotFound();
+			}
+			return Ok(products);
+		}
+
+		//[HttpGet("ByCategory")]
+		[HttpGet("[action]")]
+		public async Task<IActionResult> GetProductsByCategoryAndPage([FromQuery] string categoryId, [FromQuery] int page = 1, [FromQuery] int size = 10)
+		{
+			var products = await _productService.GetProductsByCategoryAndPageAsync(categoryId, page, size);
+
+			if (!products.Any())
+			{
+				return NotFound("No products found for the given category.");
 			}
 			return Ok(products);
 		}
