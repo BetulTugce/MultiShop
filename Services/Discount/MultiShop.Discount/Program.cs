@@ -1,10 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using MultiShop.Discount.Contexts;
+using MultiShop.Discount.Services.Abstractions;
+using MultiShop.Discount.Services.Concrete;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//builder.Services.AddTransient<DapperContext>();
+
+//Service DI containera ekleniyor..
+builder.Services.AddTransient<IDiscountService, DiscountService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
