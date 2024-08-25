@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is an e-commerce application currently being developed with ASP.NET Core. Right now, it consists of two microservices: **Catalog** and **Discount**. 
+This project is an e-commerce application currently being developed with ASP.NET Core. It currently includes three microservices:: **Catalog**, **Discount** and **Order**. 
 I will add more microservices in the future to make the project better and bigger.
 
 ### Microservices
@@ -85,3 +85,11 @@ The `appsettings.json` file is not included in the project as it contains sensit
 }
 ```
 *Note: Replace **your_server_name** with your actual SQL Server instance name.*
+
+*********
+
+#### Order Microservice
+
+- **Database**: MS SQL Server
+- **Features**: Utilizes Onion architecture, CQRS and Mediator design patterns. Includes various CRUD operations for managing orders.
+
