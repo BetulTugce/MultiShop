@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Services/Discount/MultiShop.Discount/appsettings.json
+/Services/Discount/MultiShop.Discount/Migrations
