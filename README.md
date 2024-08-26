@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is an e-commerce application currently being developed with ASP.NET Core. It currently includes three microservices:: **Catalog**, **Discount** and **Order**. 
+This project is an e-commerce application currently being developed with ASP.NET Core. It currently includes three microservices: **Catalog**, **Discount** and **Order**. 
 I will add more microservices in the future to make the project better and bigger.
 
 ### Microservices
