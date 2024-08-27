@@ -93,3 +93,35 @@ The `appsettings.json` file is not included in the project as it contains sensit
 - **Database**: MS SQL Server
 - **Features**: Utilizes Onion architecture, CQRS and Mediator design patterns. Includes various CRUD operations for managing orders.
 
+**Packages**:
+
+- **Core (Application)**:
+  - [MediatR](https://www.nuget.org/packages/MediatR/) v12.4.0
+  - [Microsoft.Extensions.Configuration.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Abstractions/8.0.0) v8.0.0
+- **Infrastructure (Persistence)**:
+  - [Microsoft.EntityFrameworkCore](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/) v8.0.8
+  - [Microsoft.EntityFrameworkCore.Design](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Design/) v8.0.8
+  - [Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.SqlServer/) v8.0.8
+- **Presentation (WebApi)**:
+  - [MediatR](https://www.nuget.org/packages/MediatR/) v12.4.0
+  - [Swashbuckle.AspNetCore](https://www.nuget.org/packages/SwashBuckle.AspNetCore/) v6.4.0
+
+**Configuration (appsettings.json)**:
+
+The `appsettings.json` file is not included in the project as it contains sensitive information. Instead, you should create your own `appsettings.json` file with the following structure for MultiShop.Order.WebApi project:
+
+```json
+{
+  "ConnectionStrings": {
+    "MSSQLServerConnection": "Server=your_server_name;Database=MultiShopOrderDb;Trusted_Connection=True;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+```
+*Note: Replace **your_server_name** with your actual SQL Server instance name.*
