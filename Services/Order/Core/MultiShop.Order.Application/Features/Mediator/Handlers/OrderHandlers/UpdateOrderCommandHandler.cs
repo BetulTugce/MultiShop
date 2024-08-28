@@ -1,4 +1,4 @@
-﻿,using MediatR;
+﻿using MediatR;
 using MultiShop.Order.Application.Features.Mediator.Commands.OrderCommands;
 using MultiShop.Order.Application.Interfaces;
 using System;
