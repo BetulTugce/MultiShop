@@ -113,7 +113,7 @@ The `appsettings.json` file is not included in the project as it contains sensit
 ```json
 {
   "ConnectionStrings": {
-    "MSSQLServerConnection": "Server=your_server_name;Database=MultiShopOrderDb;Trusted_Connection=True;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;"
+    "MSSQLServerConnection": "Server={your_server};Database={your_database};User={your_username};Password={your_password};Trusted_Connection=False;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;"
   },
   "Logging": {
     "LogLevel": {
@@ -123,5 +123,8 @@ The `appsettings.json` file is not included in the project as it contains sensit
   },
   "AllowedHosts": "*"
 }
+
 ```
-*Note: Replace **your_server_name** with your actual SQL Server instance name.*
+*Note: Replace **{your_server}**, **{your_database}**, **{your_username}**, and **{your_password}** with your actual SQL Server connection details.*
+
+*********
