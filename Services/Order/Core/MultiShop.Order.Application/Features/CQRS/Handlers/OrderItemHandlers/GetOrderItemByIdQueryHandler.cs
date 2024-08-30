@@ -22,6 +22,10 @@ namespace MultiShop.Order.Application.Features.CQRS.Handlers.OrderItemHandlers
 		public async Task<GetOrderItemByIdQueryResult> Handle(GetOrderItemByIdQuery query)
 		{
 			var value = await _repository.GetByIdAsync(query.Id);
+			if (value == null)
+			{
+				return null;
+			}
 			return new GetOrderItemByIdQueryResult
 			{
 				Id = value.Id,
