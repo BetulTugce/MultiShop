@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /Services/Discount/MultiShop.Discount/appsettings.json
 /Services/Discount/MultiShop.Discount/Migrations
+/Services/Order/Infrastructure/MultiShop.Order.Persistence/Migrations
+/Services/Order/Presentation/MultiShop.Order.WebApi/appsettings.json
