@@ -128,3 +128,33 @@ The `appsettings.json` file is not included in the project as it contains sensit
 *Note: Replace **{your_server}**, **{your_database}**, **{your_username}**, and **{your_password}** with your actual SQL Server connection details.*
 
 *********
+
+#### IdentityServer Microservice
+
+- **Database**: MS SQL Server
+
+**Packages**:
+- [IdentityServer4.AspNetIdentity](https://www.nuget.org/packages/IdentityServer4.AspNetIdentity/4.1.2/) v4.1.2
+- [Microsoft.AspNetCore.Authentication.Google](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.Google/8.0.8) v8.0.8
+- [Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore](https://www.nuget.org/packages/Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore/8.0.8) v8.0.8
+- [Microsoft.AspNetCore.Identity.EntityFrameworkCore](https://www.nuget.org/packages/Microsoft.AspNetCore.Identity.EntityFrameworkCore/8.0.8) v8.0.8
+- [Microsoft.AspNetCore.Identity.UI](https://www.nuget.org/packages/Microsoft.AspNetCore.Identity.UI/8.0.8) v8.0.8
+- [Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.SqlServer/) v8.0.8
+- [Microsoft.EntityFrameworkCore.Tools](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/) v8.0.8
+- [Serilog.AspNetCore](https://www.nuget.org/packages/Serilog.AspNetCore/8.0.2) v8.0.2
+
+**Configuration (appsettings.json)**:
+
+The `appsettings.json` file is not included in the project as it contains sensitive information. Instead, you should create your own `appsettings.json` file with the following structure for MultiShop.IdentityServer project:
+
+```json
+{
+  "ConnectionStrings": {
+    "MSSQLServerConnection": "Server={your_server};Database={your_database};User={your_username};Password={your_password};Trusted_Connection=False;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;"
+  }
+}
+
+```
+*Note: Replace **{your_server}**, **{your_database}**, **{your_username}**, and **{your_password}** with your actual SQL Server connection details.*
+
+*********
