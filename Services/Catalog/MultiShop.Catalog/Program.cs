@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using MultiShop.Catalog.Mapping;
 using MultiShop.Catalog.Repositories.Abstractions;
@@ -11,6 +12,35 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+// JWT bazlý kimlik doðrulama yapýlandýrmasý kullanýlýyor..
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+	opt.Authority = builder.Configuration["IdentityServerUrl"];
+
+	// Tokenýn geçerli olduðu kaynak adý
+	opt.Audience = "ResourceCatalog";
+
+	/* Geliþtirme ortamýnda HTTPS zorunluluðunu devre dýþý býrakmak için false olarak ayarlanabilir yani, IdentityServerý geliþtirme ortamýnda ayaða kaldýrýrken https://localhost:5001 þeklinde https zorunlu olmasýn isteniyorsa bu özellik false verilebilir.. */
+	opt.RequireHttpsMetadata = false;
+});
+
+// Yetkilendirme yapýlandýrmasý
+builder.Services.AddAuthorization(options =>
+{
+	// "CatalogReadOrFullPermission" adýnda bir yetkilendirme politikasý tanýmlanýyor..
+	options.AddPolicy("CatalogReadOrFullPermission", policy =>
+	{
+		// Tokenda "scope" claiminde "CatalogReadPermission" veya "CatalogFullPermission" deðerlerine sahip olma gerekliliði..
+		policy.RequireClaim("scope", "CatalogReadPermission", "CatalogFullPermission");
+	});
+
+	// "CatalogFullPermission" adlý bir policy tanýmlanýyor..
+	options.AddPolicy("CatalogFullPermission", policy =>
+	{
+		// Tokenda "scope" claiminde sadece "CatalogFullPermission" deðerine sahip olma gerekliliði
+		policy.RequireClaim("scope", "CatalogFullPermission");
+	});
+});
 // AutoMapper ekleniyor ve mevcut assemblydeki profiller yani mapping konfigürasyonlarý otomatik olarak yüklenir..
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -52,6 +82,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

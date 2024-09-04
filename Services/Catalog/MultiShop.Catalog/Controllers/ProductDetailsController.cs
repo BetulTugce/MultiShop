@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.ProductDetailDtos;
 using MultiShop.Catalog.Services.Abstractions;
@@ -6,6 +7,7 @@ using MultiShop.Catalog.Services.Concrete;
 
 namespace MultiShop.Catalog.Controllers
 {
+	[Authorize(Policy = "CatalogFullPermission")]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ProductDetailsController : ControllerBase
@@ -24,6 +26,7 @@ namespace MultiShop.Catalog.Controllers
 			return Ok(values);
 		}
 
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetProductDetailById(string id)
 		{

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Dtos.ProductDtos;
@@ -7,6 +8,7 @@ using SharpCompress.Common;
 
 namespace MultiShop.Catalog.Controllers
 {
+	[Authorize(Policy = "CatalogFullPermission")]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class CategoriesController : ControllerBase
@@ -18,6 +20,8 @@ namespace MultiShop.Catalog.Controllers
 			_categoryService = categoryService;
 		}
 
+		//[Authorize(Policy = "CatalogReadOrFullPermission")]
+		[AllowAnonymous]
 		[HttpGet]
 		public async Task<IActionResult> GetCategories()
 		{
@@ -25,6 +29,8 @@ namespace MultiShop.Catalog.Controllers
 			return Ok(values);
 		}
 
+		[AllowAnonymous]
+		//[Authorize(Policy = "CatalogReadOrFullPermission")]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetCategoryById(string id)
 		{

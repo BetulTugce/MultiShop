@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.ProductDtos;
 using MultiShop.Catalog.Services.Abstractions;
@@ -6,6 +7,7 @@ using System.Net;
 
 namespace MultiShop.Catalog.Controllers
 {
+	[Authorize(Policy = "CatalogFullPermission")]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ProductsController : ControllerBase
@@ -17,6 +19,7 @@ namespace MultiShop.Catalog.Controllers
 			_productService = productService;
 		}
 
+		[AllowAnonymous]
 		[HttpGet]
 		public async Task<IActionResult> GetProducts()
 		{
@@ -24,6 +27,7 @@ namespace MultiShop.Catalog.Controllers
 			return Ok(values);
 		}
 
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetProductById(string id)
 		{
@@ -52,6 +56,7 @@ namespace MultiShop.Catalog.Controllers
 			return Ok();
 		}
 
+		[AllowAnonymous]
 		// Method adı dinamik olarak routea ekleniyor.. /api/ControllerName/GetProductsByPage
 		[HttpPost("[action]")]
 		public async Task<IActionResult> GetProductsByPage(int page, int size)
@@ -64,6 +69,7 @@ namespace MultiShop.Catalog.Controllers
 			return Ok(products);
 		}
 
+		[AllowAnonymous]
 		//[HttpGet("ByCategory")]
 		[HttpGet("[action]")]
 		public async Task<IActionResult> GetProductsByCategoryAndPage([FromQuery] string categoryId, [FromQuery] int page = 1, [FromQuery] int size = 10)
