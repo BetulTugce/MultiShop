@@ -195,9 +195,11 @@ For production, you need to either generate or buy an X.509 certificate from a C
 After generating the self-signed certificate, follow these steps to integrate it into your project:
 
 1. **Move the Certificate:**
+
    -Move the `.pfx` file to the `Certificates` folder in the `MultiShop.IdentityServer` project.
 
 2. **Update appsettings.json**
+
    -Store the certificate password in appsettings.json:
 
     ```json
@@ -208,6 +210,7 @@ After generating the self-signed certificate, follow these steps to integrate it
     }
     ```
 3. **Update Startup.cs**
+
    -Modify the `Startup.cs` file to load and use the certificate:
 
     ```csharp
