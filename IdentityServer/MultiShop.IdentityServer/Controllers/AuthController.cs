@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.IdentityServer.Dtos;
 using MultiShop.IdentityServer.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using static IdentityServer4.IdentityServerConstants;
 
 namespace MultiShop.IdentityServer.Controllers
 {
+	[Authorize(LocalApi.PolicyName)]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class AuthController : ControllerBase
@@ -19,6 +22,7 @@ namespace MultiShop.IdentityServer.Controllers
 			_userManager = userManager;
 		}
 
+		[AllowAnonymous] // SignUp üzerindeki yetkilendirmeyi kaldırır. Yani kimlik doğrulama kontrolünü engeller..
 		[HttpPost("[action]")]
 		public async Task<IActionResult> SignUp(UserRegisterDto userRegisterDto)
 		{

@@ -30,7 +30,9 @@ namespace MultiShop.IdentityServer
 			new ApiResource("ResourceOrder")
 			{
 				Scopes={"OrderFullPermission"}
-			}
+			},
+
+			new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
 
 		};
 
@@ -49,6 +51,7 @@ namespace MultiShop.IdentityServer
 			new ApiScope("CatalogReadPermission", "Reading authority for catalog operations"),
 			new ApiScope("DiscountFullPermission", "Full authority for discount operations"),
 			new ApiScope("OrderFullPermission", "Full authority for order operations"),
+			new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
 		};
 
 		/*IdentityServer'da çeşitli roller (Visitor, Manager, Admin) için istemcileri (clients) tanımlıyor. Her istemci, farklı yetkilere (scopes) sahip ve kimlik doğrulama işlemleri için farklı erişim izinleri veriliyor. Her bir istemciye özel izinler ve yaşam süresi ayarları yapılmıştır. */
