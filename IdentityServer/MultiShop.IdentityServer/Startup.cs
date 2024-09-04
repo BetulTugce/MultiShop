@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Security.Cryptography.X509Certificates;
+using System.IO;
 
 namespace MultiShop.IdentityServer
 {
@@ -37,7 +39,14 @@ namespace MultiShop.IdentityServer
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            var builder = services.AddIdentityServer(options =>
+			// Sertifika projenin kök dizinindeki "Certificates" klasöründen alınıyor..
+			var certificatePath = Path.Combine(Directory.GetCurrentDirectory(), "Certificates", "MultiShopCertificate.pfx");
+			var certificatePassword = Configuration["CertificateSettings:Password"];
+
+			// Sertifika yükleniyor..
+			var certificate = new X509Certificate2(certificatePath, certificatePassword);
+
+			var builder = services.AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
@@ -53,10 +62,13 @@ namespace MultiShop.IdentityServer
                 .AddInMemoryClients(Config.Clients)
                 .AddAspNetIdentity<ApplicationUser>();
 
-            // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
+			// not recommended for production - you need to store your key material somewhere secure
+			//builder.AddDeveloperSigningCredential();
 
-            services.AddAuthentication()
+			// X.509 sertifikasını kullanarak JWT tokenların imzalanmasını sağlar..
+			builder.AddSigningCredential(certificate);
+
+			services.AddAuthentication()
                 .AddGoogle(options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
