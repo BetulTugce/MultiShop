@@ -2,57 +2,99 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4;
 using IdentityServer4.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace MultiShop.IdentityServer
 {
-    public static class Config
-    {
-        public static IEnumerable<IdentityResource> IdentityResources =>
-                   new IdentityResource[]
-                   {
-                new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
-                   };
+	public static class Config
+	{
+		// ApiResources özelliği, mikroservisler için kaynakları tanımlar. Bu kaynaklar, API'lere erişim için gerekli olan izinleri belirler.
+		public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
+		{
+            // ResourceCatalog adında bir API kaynağı oluşturulur..
+            new ApiResource("ResourceCatalog")
+			{
+                // ResourceCatalog API kaynağına sahip olan kullanıcılar, bu kapsamları yani scopeları kullanarak katalog operasyonlarını gerçekleştirebilir.
+                // Özetle, ResourceCatalog ismindeki keye sahip olan bir mikroservis kullanıcısı CatalogFullPermission işlemini gerçekleştirebilecek..
+                Scopes={"CatalogFullPermission", "CatalogReadPermission" }
+			},
 
-        public static IEnumerable<ApiScope> ApiScopes =>
-            new ApiScope[]
-            {
-                new ApiScope("scope1"),
-                new ApiScope("scope2"),
-            };
+			new ApiResource("ResourceDiscount")
+			{
+				Scopes={"DiscountFullPermission"}
+			},
 
-        public static IEnumerable<Client> Clients =>
-            new Client[]
-            {
-                // m2m client credentials flow client
-                new Client
-                {
-                    ClientId = "m2m.client",
-                    ClientName = "Client Credentials Client",
+			new ApiResource("ResourceOrder")
+			{
+				Scopes={"OrderFullPermission"}
+			}
 
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
+		};
 
-                    AllowedScopes = { "scope1" }
-                },
+		// IdentityResources özelliği, kimlik doğrulama işlemlerinde token alan kullanıcıların hangi bilgilere erişim sağlayacağını tanımlar. Örneğin, kullanıcı bilgilerini içeren profiller ve e-postalar gibi.
+		public static IEnumerable<IdentityResource> IdentityResources => new IdentityResource[]
+		{
+			new IdentityResources.OpenId(),
+			new IdentityResources.Email(),
+			new IdentityResources.Profile()
+		};
 
-                // interactive client using code flow + pkce
-                new Client
-                {
-                    ClientId = "interactive",
-                    ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
+		// ApiScopes özelliği, her bir API kaynağı için belirlenen kapsamları tanımlar.. Bu scopelar, belirli işlemleri gerçekleştirmek için gerekli yetkilere sahip olur.
+		public static IEnumerable<ApiScope> ApiScopes => new ApiScope[]
+		{
+			new ApiScope("CatalogFullPermission", "Full authority for catalog operations"),
+			new ApiScope("CatalogReadPermission", "Reading authority for catalog operations"),
+			new ApiScope("DiscountFullPermission", "Full authority for discount operations"),
+			new ApiScope("OrderFullPermission", "Full authority for order operations"),
+		};
 
-                    AllowedGrantTypes = GrantTypes.Code,
+		/*IdentityServer'da çeşitli roller (Visitor, Manager, Admin) için istemcileri (clients) tanımlıyor. Her istemci, farklı yetkilere (scopes) sahip ve kimlik doğrulama işlemleri için farklı erişim izinleri veriliyor. Her bir istemciye özel izinler ve yaşam süresi ayarları yapılmıştır. */
+		public static IEnumerable<Client> Clients => new Client[]
+		{
+            // Visitor rolü için istemci tanımlanıyor..
 
-                    RedirectUris = { "https://localhost:44300/signin-oidc" },
-                    FrontChannelLogoutUri = "https://localhost:44300/signout-oidc",
-                    PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
+            new Client()
+			{
+				// İstemcinin kimliği, kimlik doğrulama işlemlerinde kullanılır.
+				ClientId = "MultiShopVisitorId",
+				ClientName = "Multi Shop Visitor User",
+				AllowedGrantTypes = GrantTypes.ClientCredentials,
+				// Parola niteliğinde olduğu için hashi saklanır.. Doğrularken de aynı şekilde hashi alınarak veriler karşılaştırılır..
+				ClientSecrets = {new Secret("multishopsecret".Sha256())},
+				// Bu istemcinin erişebileceği yani yetkili olduğu izinleri (scopes) belirtir..
+				AllowedScopes= {"CatalogReadPermission"}
+			},
 
-                    AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "scope2" }
-                },
-            };
-    }
+			// Manager
+			new Client()
+			{
+				ClientId = "MultiShopManagerId",
+				ClientName = "Multi Shop Manager User",
+				AllowedGrantTypes = GrantTypes.ClientCredentials,
+				ClientSecrets = {new Secret("multishopsecret".Sha256())},
+				AllowedScopes= {"CatalogReadPermission", "CatalogFullPermission"}
+			},
+
+			// Admin
+			new Client()
+			{
+				ClientId = "MultiShopAdminId",
+				ClientName = "Multi Shop Admin User",
+				AllowedGrantTypes = GrantTypes.ClientCredentials,
+				ClientSecrets = {new Secret("multishopsecret".Sha256())},
+				AllowedScopes= {"CatalogReadPermission", "CatalogFullPermission", "DiscountFullPermission", "OrderFullPermission",
+				IdentityServerConstants.LocalApi.ScopeName, // IdentityServer projesindeki yerel API controllerlarına erişim yetkisi..
+				IdentityServerConstants.StandardScopes.Email,
+				IdentityServerConstants.StandardScopes.OpenId,
+				IdentityServerConstants.StandardScopes.Profile
+				},
+				// Access token'ın ömrü..
+				AccessTokenLifetime = 600 //10dk.
+			},
+
+		};
+	}
 }
