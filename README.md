@@ -17,6 +17,7 @@ I will add more microservices in the future to make the project better and bigge
 - [MongoDB.Driver](https://www.nuget.org/packages/MongoDB.Driver/) v2.28.0
 - [AutoMapper](https://www.nuget.org/packages/AutoMapper/) v13.0.1
 - [SwashBuckle.AspNetCore](https://www.nuget.org/packages/SwashBuckle.AspNetCore/) v6.4.0
+- [Microsoft.AspNetCore.Authentication.JwtBearer](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.JwtBearer/8.0.8) v8.0.8
 
 **Configuration (appsettings.json)**:
 ```json
@@ -29,6 +30,7 @@ I will add more microservices in the future to make the project better and bigge
     "ConnectionString": "your_connection_string",
     "DatabaseName": "MultiShopCatalogDb"
   },
+  "IdentityServerUrl": "your_url",
   "Logging": {
     "LogLevel": {
       "Default": "Information",
@@ -38,7 +40,7 @@ I will add more microservices in the future to make the project better and bigge
   "AllowedHosts": "*"
 }
 ```
-*Note: Replace **your_connection_string** with your MongoDB server connection string*
+*Note: Replace **your_connection_string** with your MongoDB server connection string. Also, replace **your_url** with the correct URL of your Identity Server, such as `https://localhost:5001` for a local development environment. This URL will be used for authentication and authorization.*
 
 **Connection String Examples:**
 
