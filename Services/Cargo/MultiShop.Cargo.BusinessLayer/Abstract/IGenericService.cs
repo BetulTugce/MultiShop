@@ -30,9 +30,9 @@ namespace MultiShop.Cargo.BusinessLayer.Abstract
 
 		Task<T> InsertAsync(T entity);
 
-		Task UpdateAsync(T entity);
+		void Update(T entity);
 
-		Task RemoveAsync(T entity);
+		void Remove(Guid id);
 
 		#endregion
 	}
