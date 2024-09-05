@@ -1,9 +1,22 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MultiShop.Order.Application.Services;
 using MultiShop.Order.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// JWT bazlý kimlik doðrulama yapýlandýrmasý kullanýlýyor..
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+	opt.Authority = builder.Configuration["IdentityServerUrl"];
+
+	// Tokenýn geçerli olduðu kaynak adý
+	opt.Audience = "ResourceOrder";
+
+	/* Geliþtirme ortamýnda HTTPS zorunluluðunu devre dýþý býrakmak için false olarak ayarlanabilir yani, IdentityServerý geliþtirme ortamýnda ayaða kaldýrýrken https://localhost:5001 þeklinde https zorunlu olmasýn isteniyorsa bu özellik false verilebilir.. */
+	opt.RequireHttpsMetadata = false;
+});
 
 builder.Services.AddApplicationService(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
@@ -24,6 +37,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

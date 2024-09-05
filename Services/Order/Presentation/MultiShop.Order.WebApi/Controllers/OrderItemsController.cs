@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Order.Application.Features.CQRS.Commands.OrderItemCommands;
 using MultiShop.Order.Application.Features.CQRS.Handlers.OrderItemHandlers;
@@ -6,6 +7,7 @@ using MultiShop.Order.Application.Features.CQRS.Queries.OrderItemQueries;
 
 namespace MultiShop.Order.WebApi.Controllers
 {
+	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class OrderItemsController : ControllerBase
