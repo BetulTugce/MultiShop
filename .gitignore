@@ -367,3 +367,5 @@ FodyWeavers.xsd
 /Services/Order/Presentation/MultiShop.Order.WebApi/appsettings.json
 /IdentityServer/MultiShop.IdentityServer/appsettings.json
 /IdentityServer/MultiShop.IdentityServer/Migrations
+/Services/Cargo/MultiShop.Cargo.DataAccessLayer/Migrations
+/Services/Cargo/MultiShop.Cargo.WebApi/appsettings.json
