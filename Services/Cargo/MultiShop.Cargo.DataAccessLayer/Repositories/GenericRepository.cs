@@ -54,6 +54,11 @@ namespace MultiShop.Cargo.DataAccessLayer.Repositories
 		public void Remove(Guid id)
 		{
 			var entity = _dbSet.Find(id);
+			if (entity == null)
+			{
+				throw new ArgumentNullException(nameof(entity), "Entity not found.");
+			}
+
 			_dbSet.Remove(entity);
 			_context.SaveChanges();
 		}

@@ -62,8 +62,15 @@ namespace MultiShop.Cargo.WebApi.Controllers
 		[HttpDelete]
 		public IActionResult RemoveCargo(Guid id)
 		{
-			_cargoService.Remove(id);
-			return NoContent();
+			try
+			{
+				_cargoService.Remove(id);
+				return NoContent();
+			}
+			catch (ArgumentNullException)
+			{
+				return NotFound();
+			}
 		}
 	}
 }
