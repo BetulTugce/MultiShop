@@ -274,6 +274,7 @@ The `appsettings.json` file is not included in the project as it contains sensit
 - **Web Api - Presentation**:
   - [Swashbuckle.AspNetCore](https://www.nuget.org/packages/SwashBuckle.AspNetCore/) v6.4.0
   - [Microsoft.EntityFrameworkCore.Design](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Design/) v8.0.8
+  - [Microsoft.AspNetCore.Authentication.JwtBearer](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.JwtBearer/8.0.8) v8.0.8
 
 **Configuration (appsettings.json)**:
 
@@ -284,6 +285,7 @@ The `appsettings.json` file is not included in the project as it contains sensit
   "ConnectionStrings": {
     "MSSQLServerConnection": "Server={your_server};Database={your_database};User={your_username};Password={your_password};Trusted_Connection=False;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;"
   },
+  "IdentityServerUrl": "your_url",
   "Logging": {
     "LogLevel": {
       "Default": "Information",
@@ -294,7 +296,7 @@ The `appsettings.json` file is not included in the project as it contains sensit
 }
 
 ```
-*Note: Replace **{your_server}**, **{your_database}**, **{your_username}**, and **{your_password}** with your actual SQL Server connection details.*
+*Note: Replace **{your_server}**, **{your_database}**, **{your_username}**, and **{your_password}** with your actual SQL Server connection details. Also, replace **your_url** with the correct URL of your Identity Server, such as `https://localhost:5001` for a local development environment. This URL will be used for authentication and authorization.*
 
 *********
 
