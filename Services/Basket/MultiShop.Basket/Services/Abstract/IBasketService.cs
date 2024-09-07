@@ -8,7 +8,7 @@ namespace MultiShop.Basket.Services.Abstract
 		Task<BasketTotalDto> GetBasketAsync(string userId);
 
 		// Kullanıcının sepetini kaydeder..
-		Task SaveBasketAsync(BasketTotalDto basketTotalDto);
+		Task SaveBasketAsync(BasketTotalDto basketTotalDto, string userId);
 
 		// Kullanıcının sepetini siler..
 		Task DeleteBasketAsync(string userId);

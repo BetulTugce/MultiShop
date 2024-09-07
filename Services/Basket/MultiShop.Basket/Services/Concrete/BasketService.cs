@@ -24,13 +24,19 @@ namespace MultiShop.Basket.Services.Concrete
 		public async Task<BasketTotalDto> GetBasketAsync(string userId)
 		{
 			var existBasket = await _redisService.GetDb().StringGetAsync(userId);
+			if (string.IsNullOrEmpty(existBasket))
+			{
+				// Sepet bulunamadıysa..
+				return null;
+			}
 			return JsonSerializer.Deserialize<BasketTotalDto>(existBasket);
 		}
 
 		// Kullanıcının sepetini Redise kaydeder/günceller..
-		public async Task SaveBasketAsync(BasketTotalDto basketTotalDto)
+		public async Task SaveBasketAsync(BasketTotalDto basketTotalDto, string userId)
 		{
-			await _redisService.GetDb().StringSetAsync(basketTotalDto.UserId, JsonSerializer.Serialize(basketTotalDto));
+			//await _redisService.GetDb().StringSetAsync(basketTotalDto.UserId, JsonSerializer.Serialize(basketTotalDto));
+			await _redisService.GetDb().StringSetAsync(userId, JsonSerializer.Serialize(basketTotalDto));
 		}
 	}
 }

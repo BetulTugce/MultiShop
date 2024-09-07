@@ -32,8 +32,8 @@ namespace MultiShop.Basket.Controllers
 		[HttpPost]
 		public async Task<IActionResult> SaveMyBasket(BasketTotalDto dto)
 		{
-			dto.UserId = _loginService.GetUserId;
-			await _basketService.SaveBasketAsync(dto);
+			//dto.UserId = _loginService.GetUserId;
+			await _basketService.SaveBasketAsync(dto, _loginService.GetUserId);
 			return Ok();
 		}
 
