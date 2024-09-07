@@ -300,3 +300,46 @@ The `appsettings.json` file is not included in the project as it contains sensit
 
 *********
 
+#### Basket Microservice
+
+- **Storage**: Redis
+- **Features**: It allows users to store, retrieve, and delete their baskets in the Redis database based on their authenticated user ID.
+
+**Packages**:
+- [StackExchange.Redis](https://www.nuget.org/packages/StackExchange.Redis/2.8.12) v2.8.12
+- [SwashBuckle.AspNetCore](https://www.nuget.org/packages/SwashBuckle.AspNetCore/) v6.4.0
+- [Microsoft.AspNetCore.Authentication.JwtBearer](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.JwtBearer/8.0.8) v8.0.8
+
+**Redis Setup**
+
+In this project, Redis is required. You can easily set up a Redis container using Docker and Portainer. Follow these steps:
+
+1. Open Portainer and navigate to the `Templates` section.
+2. Select the Redis template and configure it as needed.
+3. Deploy the Redis container.
+
+Make sure to update your `appsettings.json` file with the correct Redis host and port details (default port: 6379).
+
+**Configuration (appsettings.json)**:
+
+The `appsettings.json` file is not included in the project as it contains sensitive information. Instead, you should create your own `appsettings.json` file with the following structure for MultiShop.Basket project:
+
+```json
+{
+  "RedisSettings": {
+    "Host": "localhost",
+    "Port": "your_port"
+  },
+  "IdentityServerUrl": "your_url",
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+```
+*Note: Adjust the `Host` and `Port` fields under `RedisSettings` according to your Redis server configuration. Also, replace **your_url** with the correct URL of your Identity Server, such as `https://localhost:5001` for a local development environment. This URL will be used for authentication and authorization.*
+
+*********
