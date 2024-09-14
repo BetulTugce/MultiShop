@@ -1,4 +1,6 @@
-﻿
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.Category
+
+@model List<CategoryListVM>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
@@ -10,6 +12,7 @@
             <div class="chart-box">
                 <h4>Kategori Listesi</h4>
                 <p>Kategori ile ilgili işlemlerinizi bu sayfadan gerçekleştirebilirsiniz.</p>
+                <a href="#" class="btn btn-primary">Yeni</a>
                 <div class="bs-example" data-example-id="bordered-table">
                     <table class="table table-bordered">
                         <thead>
@@ -21,14 +24,15 @@
                             </tr>
                         </thead>
                         <tbody>
-
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-
+                            @foreach (var category in Model)
+                            {
+                                <tr>
+                                    <th scope="row">@category.Id</th>
+                                    <td>@category.Name</td>
+                                    <td><a href="#" class="btn btn-warning">Güncelle</a></td>
+                                    <td><a href="#" class="btn btn-danger">Sil</a></td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
