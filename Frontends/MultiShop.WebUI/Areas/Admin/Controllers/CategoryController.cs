@@ -83,5 +83,35 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             }
             return View();
         }
+
+        [Route("UpdateCategory/{id}")]
+        public async Task<IActionResult> UpdateCategory(string id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:44326/api/Categories/{id}");
+            if (responseMessage.IsSuccessStatusCode) 
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var value =  JsonConvert.DeserializeObject<CategoryUpdateVM>(jsonData);
+                return View(value);
+            }
+            return View();
+        }
+
+        [Route("UpdateCategory/{id}")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory(CategoryUpdateVM categoryUpdateVM)
+        {
+            var client = _httpClientFactory.CreateClient();
+            // categoryUpdateVM modeli JSON formatına dönüştürülüyor..
+            var jsonData = JsonConvert.SerializeObject(categoryUpdateVM);
+            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PutAsync("https://localhost:44326/api/Categories", content);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Category", new { area = "Admin" });
+            }
+            return View();
+        }
     }
 }
