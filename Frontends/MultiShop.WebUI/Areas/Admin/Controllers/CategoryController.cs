@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.WebUI.Models.ViewModels.Catalog.Category;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
 {
@@ -38,6 +39,32 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
                 return View(values);
             }
             // Eğer istek başarısız olursa (örneğin api kapalıysa ya da yanıt 500 dönüyorsa), boş bir View döndürüyor..
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult CreateCategory()
+        {
+            // Dinamik olarak verileri taşımak için ViewBag kullanılıyor..
+            ViewBag.v0 = "Kategoriler";
+            ViewBag.v1 = "Anasayfa";
+            ViewBag.v2 = "Kategoriler";
+            ViewBag.v3 = "Yeni Kategori";
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCategory(CategoryCreateVM categoryCreateVM)
+        {
+            var client = _httpClientFactory.CreateClient();
+            // categoryCreateVM modeli JSON formatına dönüştürülüyor..
+            var jsonData = JsonConvert.SerializeObject(categoryCreateVM);
+            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PostAsync("https://localhost:44326/api/Categories", content);
+            if (responseMessage.IsSuccessStatusCode) 
+            {
+                return RedirectToAction("Index", "Category", new {area="Admin"});
+            }
             return View();
         }
     }

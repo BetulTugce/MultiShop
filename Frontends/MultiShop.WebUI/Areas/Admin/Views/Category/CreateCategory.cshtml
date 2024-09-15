@@ -1,0 +1,26 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.Category
+@model CategoryCreateVM
+@{
+    ViewData["Title"] = "CreateCategory";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Yeni Kategori</h4>
+                <p>Yeni kategori ekleme işleminizi bu panelden gerçekleştirebilirsiniz.</p>
+                <div class="form-group">
+                    <form method="post">
+                        <label>Kategori Adı</label>
+                        <input type="text" class="form-control" asp-for="Name" />
+                        <br />
+                        <button type="submit" class="btn btn-primary">Oluştur</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
