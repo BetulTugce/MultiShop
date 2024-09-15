@@ -6,6 +6,7 @@ using System.Text;
 namespace MultiShop.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Route("Admin/Category/")]
     public class CategoryController : Controller
     {
         // IHttpClientFactory nesnesi için field tanımı.. Api istekleri yapmak için httpclient nesnesi üretmeyi sağlar..
@@ -16,6 +17,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
+        [Route("Index")]
         public async Task<IActionResult> Index()
         {
             // Dinamik olarak verileri taşımak için ViewBag kullanılıyor..
@@ -42,6 +44,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             return View();
         }
 
+        [Route("CreateCategory")]
         [HttpGet]
         public IActionResult CreateCategory()
         {
@@ -53,6 +56,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             return View();
         }
 
+        [Route("CreateCategory")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryCreateVM categoryCreateVM)
         {
@@ -64,6 +68,18 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             if (responseMessage.IsSuccessStatusCode) 
             {
                 return RedirectToAction("Index", "Category", new {area="Admin"});
+            }
+            return View();
+        }
+
+        [Route("DeleteCategory/{id}")]
+        public async Task<IActionResult> DeleteCategory(string id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.DeleteAsync($"https://localhost:44326/api/Categories?id={id}");
+            if (responseMessage.IsSuccessStatusCode) 
+            {
+                return RedirectToAction("Index", "Category", new { area = "Admin" });
             }
             return View();
         }
