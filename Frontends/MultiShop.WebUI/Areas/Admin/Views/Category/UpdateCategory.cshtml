@@ -13,9 +13,9 @@
                 <p>İlgili kategoriye ait verileri güncelleme işleminizi bu panelden gerçekleştirebilirsiniz.</p>
                 <div class="form-group">
                     <form method="post">
-                        <label>Kategori Id</label>
-                        <input type="text" readonly class="form-control" asp-for="Id" />
-                        <br />
+                        @* <label>Kategori Id</label>
+                        <input type="hidden" readonly class="form-control" asp-for="Id" />
+                        <br /> *@
                         <label>Kategori Adı</label>
                         <input type="text" class="form-control" asp-for="Name" />
                         <br />

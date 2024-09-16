@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    int counter = 0;
 }
 
 <section class="content container-fluid">
@@ -12,7 +13,7 @@
             <div class="chart-box">
                 <h4>Kategori Listesi</h4>
                 <p>Kategori ile ilgili işlemlerinizi bu sayfadan gerçekleştirebilirsiniz.</p>
-                <a href="/Admin/Category/CreateCategory" class="btn btn-primary">Yeni</a>
+                <a href="/Admin/Category/CreateCategory" style="margin-bottom: 10px;" class="btn btn-primary">Yeni</a>
                 <div class="bs-example" data-example-id="bordered-table">
                     <table class="table table-bordered">
                         <thead>
@@ -26,8 +27,9 @@
                         <tbody>
                             @foreach (var category in Model)
                             {
+                                counter++;
                                 <tr>
-                                    <th scope="row">@category.Id</th>
+                                    <th scope="row">@counter</th>
                                     <td>@category.Name</td>
                                     <td><a href="/Admin/Category/UpdateCategory/@category.Id" class="btn btn-warning">Güncelle</a></td>
                                     <td><a href="/Admin/Category/DeleteCategory/@category.Id" class="btn btn-danger">Sil</a></td>
