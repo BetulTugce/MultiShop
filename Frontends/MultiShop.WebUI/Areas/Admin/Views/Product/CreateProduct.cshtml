@@ -1,0 +1,39 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.Product
+@model ProductCreateVM
+@{
+    ViewData["Title"] = "CreateProduct";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Yeni Ürün</h4>
+                @* <p>Ürün ekleme işleminizi bu panelden gerçekleştirebilirsiniz.</p> *@
+                <div class="form-group">
+                    <form method="post">
+                        <label>Ürün Adı</label>
+                        <input type="text" class="form-control" asp-for="Name" />
+                        <br />
+                        <label>Fiyatı</label>
+                        <input type="number" class="form-control" asp-for="Price" step="0.01" min="0" max="1000000000" />
+                        <br />
+                        <label>Kategori</label>
+                        @* @Html.DropDownListFor(p => p.CategoryId, (List<SelectListItem>)ViewBag.CategoryList, new { @class = "form-control" }) *@
+                        @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewBag.CategoryId, "Kategori Seçiniz", new { @class = "form-control" })
+                        <br />
+                        <label>Kapak Fotoğrafı</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        <br />
+                        <label>Açıklama</label>
+                        <textarea rows="5" class="form-control" asp-for="Description"></textarea>
+                        <br />
+                        <button type="submit" class="btn btn-primary">Oluştur</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
