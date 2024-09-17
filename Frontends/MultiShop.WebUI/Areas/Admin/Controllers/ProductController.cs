@@ -81,7 +81,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             var responseMessage = await client.PostAsync("https://localhost:44326/api/Products", content);
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Product", new { area = "Admin" });
+                //return RedirectToAction("Index", "Product", new { area = "Admin" });
+                return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
             }
             else if (responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
@@ -98,7 +99,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             var responseMessage = await client.DeleteAsync($"https://localhost:44326/api/Products?id={id}");
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Product", new { area = "Admin" });
+                //return RedirectToAction("Index", "Product", new { area = "Admin" });
+                return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
             }
             return View();
         }
@@ -136,7 +138,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             var responseMessage = await client.PutAsync("https://localhost:44326/api/Products", content);
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Product", new { area = "Admin" });
+                //return RedirectToAction("Index", "Product", new { area = "Admin" });
+                return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
             }
             return View();
         }
