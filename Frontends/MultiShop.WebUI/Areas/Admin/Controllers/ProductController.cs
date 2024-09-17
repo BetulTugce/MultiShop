@@ -90,5 +90,55 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             }
             return View();
         }
+
+        [Route("DeleteProduct/{id}")]
+        public async Task<IActionResult> DeleteProduct(string id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.DeleteAsync($"https://localhost:44326/api/Products?id={id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Product", new { area = "Admin" });
+            }
+            return View();
+        }
+
+        [Route("UpdateProduct/{id}")]
+        public async Task<IActionResult> UpdateProduct(string id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            // Kategorileri getiriyor..
+            var responseMessageForCategories = await client.GetAsync("https://localhost:44326/api/Categories");
+            var jsonCategoryData = await responseMessageForCategories.Content.ReadAsStringAsync();
+            var categories = JsonConvert.DeserializeObject<List<CategoryListVM>>(jsonCategoryData);
+            ViewBag.CategoryId = new SelectList(categories, "Id", "Name");
+
+            // Ürüne ait bilgileri getiriyor..
+            var client2 = _httpClientFactory.CreateClient();
+            var responseMessage = await client2.GetAsync($"https://localhost:44326/api/Products/{id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var value = JsonConvert.DeserializeObject<ProductUpdateVM>(jsonData);
+                return View(value);
+            }
+            return View();
+        }
+
+        [Route("UpdateProduct/{id}")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct(ProductUpdateVM productUpdateVM)
+        {
+            var client = _httpClientFactory.CreateClient();
+            // productUpdateVM modeli JSON formatına dönüştürülüyor..
+            var jsonData = JsonConvert.SerializeObject(productUpdateVM);
+            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PutAsync("https://localhost:44326/api/Products", content);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Product", new { area = "Admin" });
+            }
+            return View();
+        }
     }
 }
