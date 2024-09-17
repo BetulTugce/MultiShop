@@ -42,14 +42,14 @@ namespace MultiShop.Catalog.Controllers
 			return StatusCode(StatusCodes.Status201Created);
 		}
 
-		[HttpDelete]
+        [HttpDelete]
 		public async Task<IActionResult> DeleteProduct(string id)
 		{
 			await _productService.DeleteProductAsync(id);
 			return NoContent();
 		}
 
-		[HttpPut]
+        [HttpPut]
 		public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProductDto)
 		{
 			await _productService.UpdateProductAsync(updateProductDto);
@@ -82,5 +82,18 @@ namespace MultiShop.Catalog.Controllers
 			}
 			return Ok(products);
 		}
-	}
+
+        [AllowAnonymous]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetProductsWithCategory()
+        {
+            var products = await _productService.GetProductsWithCategoryAsync();
+
+            if (!products.Any())
+            {
+                return NotFound();
+            }
+            return Ok(products);
+        }
+    }
 }

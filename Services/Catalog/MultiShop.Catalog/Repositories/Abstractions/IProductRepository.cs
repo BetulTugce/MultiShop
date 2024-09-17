@@ -1,4 +1,5 @@
-﻿using MultiShop.Catalog.Entities;
+﻿using MultiShop.Catalog.Dtos.ProductDtos;
+using MultiShop.Catalog.Entities;
 
 namespace MultiShop.Catalog.Repositories.Abstractions
 {
@@ -7,5 +8,7 @@ namespace MultiShop.Catalog.Repositories.Abstractions
 		Task<List<Product>> GetProductsByPageAsync(int page, int size);
 
 		Task<List<Product>> GetProductsByCategoryAndPageAsync(string categoryId, int page, int size);
+
+		Task<List<Product>> GetProductsWithCategoryAsync();
 	}
 }

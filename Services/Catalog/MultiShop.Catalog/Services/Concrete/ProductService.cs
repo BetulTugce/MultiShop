@@ -53,7 +53,13 @@ namespace MultiShop.Catalog.Services.Concrete
 			return _mapper.Map<List<ResultProductDto>>(products);
 		}
 
-		public async Task UpdateProductAsync(UpdateProductDto updateProductDto)
+        public async Task<List<ResultProductWithCategoryDto>> GetProductsWithCategoryAsync()
+        {
+            var products = await _productRepository.GetProductsWithCategoryAsync();
+			return _mapper.Map<List<ResultProductWithCategoryDto>>(products);
+        }
+
+        public async Task UpdateProductAsync(UpdateProductDto updateProductDto)
 		{
 			var product = _mapper.Map<Product>(updateProductDto);
 			await _productRepository.UpdateAsync(product);
