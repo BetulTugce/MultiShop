@@ -1,0 +1,35 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.SpecialOffer
+@model SpecialOfferCreateVM
+
+@{
+    ViewData["Title"] = "CreateSpecialOffer";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Yeni Özel Teklif</h4>
+                <div class="form-group">
+                    <form method="post">
+                        <label>Başlık</label>
+                        <input type="text" class="form-control" asp-for="Title" />
+                        <br />
+                        <label>Alt Başlık</label>
+                        <textarea rows="5" class="form-control" asp-for="SubTitle"></textarea>
+                        <br />
+                        <label>Görsel</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        <br />
+                        @* <label>Durum</label>
+                        <input type="checkbox" class="form-control" asp-for="Status" />
+                        <br /> *@
+                        <button type="submit" class="btn btn-primary">Oluştur</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
