@@ -1,20 +1,18 @@
-﻿<!-- Special Offer Start -->
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.SpecialOffer
+@model List<SpecialOfferListVM>
+
+<!-- Special Offer Start -->
 <div class="col-lg-4">
-    <div class="product-offer mb-30" style="height: 200px;">
-        <img class="img-fluid" src="~/online-shop-website-template/img/offer-1.jpg" alt="">
-        <div class="offer-text">
-            <h6 class="text-white text-uppercase">%20 İndirim</h6>
-            <h3 class="text-white mb-3">Özel Teklifler</h3>
-            <a href="" class="btn btn-primary">Alışverişe Başla</a>
+    @for (int i = 0; i < 2; i++)
+    {
+        <div class="product-offer mb-30" style="height: 200px;">
+            <img class="img-fluid" src="@Model[i].ImageUrl" alt="">
+            <div class="offer-text">
+                <h6 class="text-white text-uppercase">@Model[i].Title</h6>
+                <h3 class="text-white mb-3">@Model[i].SubTitle</h3>
+                <a href="" class="btn btn-primary">@Model[i].ButtonText</a>
+            </div>
         </div>
-    </div>
-    <div class="product-offer mb-30" style="height: 200px;">
-        <img class="img-fluid" src="~/online-shop-website-template/img/offer-2.jpg" alt="">
-        <div class="offer-text">
-            <h6 class="text-white text-uppercase">%30 İndirim</h6>
-            <h3 class="text-white mb-3">Günün Fırsatı</h3>
-            <a href="" class="btn btn-primary">Hemen Yararlan</a>
-        </div>
-    </div>
+    }
 </div>
 <!-- Special Offer End -->
