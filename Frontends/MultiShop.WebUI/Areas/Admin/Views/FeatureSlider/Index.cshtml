@@ -18,6 +18,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Başlık</th>
+                                <th>Durum</th>
                                 <th>Güncelle</th>
                                 <th>Sil</th>
                             </tr>
@@ -29,6 +30,17 @@
                                 <tr>
                                     <th scope="row">@counter</th>
                                     <td>@item.Title</td>
+                                    <td>
+                                        <input type="checkbox" disabled="disabled" @(item.Status ? "checked" : "") />
+                                        @if (item.Status)
+                                        {
+                                            <span class="text-success">Aktif</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Pasif</span>
+                                        }
+                                    </td>
                                     <td><a href="/Admin/FeatureSlider/UpdateFeatureSlider/@item.Id" class="btn btn-warning">Güncelle</a></td>
                                     <td><a href="/Admin/FeatureSlider/DeleteFeatureSlider/@item.Id" class="btn btn-danger">Sil</a></td>
                                 </tr>
