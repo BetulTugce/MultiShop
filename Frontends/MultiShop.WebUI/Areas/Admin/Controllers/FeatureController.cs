@@ -21,9 +21,9 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             // Dinamik olarak verileri taşımak için ViewBag kullanılıyor..
-            ViewBag.v0 = "Öne Çıkanlar/Hizmetler";
+            ViewBag.v0 = "Öne Çıkanlar";
             ViewBag.v1 = "Anasayfa";
-            ViewBag.v2 = "Öne Çıkanlar/Hizmetler";
+            ViewBag.v2 = "Öne Çıkanlar";
             ViewBag.v3 = "Öne Çıkanlar Listesi";
 
             // HTTP istekleri için bir HttpClient oluşturuluyor..
@@ -49,9 +49,9 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         public IActionResult CreateFeature()
         {
             // Dinamik olarak verileri taşımak için ViewBag kullanılıyor..
-            ViewBag.v0 = "Öne Çıkanlar/Hizmetler";
+            ViewBag.v0 = "Öne Çıkanlar";
             ViewBag.v1 = "Anasayfa";
-            ViewBag.v2 = "Öne Çıkanlar/Hizmetler";
+            ViewBag.v2 = "Öne Çıkanlar";
             ViewBag.v3 = "Yeni Öne Çıkan";
             return View();
         }
