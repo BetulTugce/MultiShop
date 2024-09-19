@@ -1,0 +1,32 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.Feature
+@model FeatureUpdateVM
+
+@{
+    ViewData["Title"] = "UpdateFeature";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>@Model.Title</h4>
+                <div class="form-group">
+                    <form method="post">
+                        @* <label>Id</label>
+                        <input type="hidden" readonly class="form-control" asp-for="Id" />
+                        <br /> *@
+                        <label>Başlık</label>
+                        <input type="text" class="form-control" asp-for="Title" />
+                        <br />
+                        <label>İkon</label>
+                        <input type="text" class="form-control" asp-for="Icon" />
+                        <br />
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

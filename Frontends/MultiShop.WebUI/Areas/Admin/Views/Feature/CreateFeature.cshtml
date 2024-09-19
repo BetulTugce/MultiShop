@@ -1,0 +1,29 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.Feature
+@model FeatureCreateVM
+
+@{
+    ViewData["Title"] = "CreateFeature";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Yeni Öne Çıkan</h4>
+                <div class="form-group">
+                    <form method="post">
+                        <label>Başlık</label>
+                        <input type="text" class="form-control" asp-for="Title" />
+                        <br />
+                        <label>İkon</label>
+                        <input type="text" class="form-control" asp-for="Icon" />
+                        <br />
+                        <button type="submit" class="btn btn-primary">Oluştur</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
