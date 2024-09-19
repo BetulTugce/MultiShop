@@ -1,0 +1,33 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.FeatureSlider
+@model FeatureSliderCreateVM
+@{
+    ViewData["Title"] = "CreateFeatureSlider";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Yeni Öne Çıkanlar Sliderı</h4>
+                <div class="form-group">
+                    <form method="post">
+                        <label>Başlık</label>
+                        <input type="text" class="form-control" asp-for="Title" />
+                        <br />
+                        <label>Açıklama</label>
+                        <textarea rows="5" class="form-control" asp-for="Description"></textarea>
+                        <br />
+                        <label>Görsel</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        <br />
+                        <label>Durum</label>
+                        <input type="checkbox" class="form-control" asp-for="Status" />
+                        <br />
+                        <button type="submit" class="btn btn-primary">Oluştur</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

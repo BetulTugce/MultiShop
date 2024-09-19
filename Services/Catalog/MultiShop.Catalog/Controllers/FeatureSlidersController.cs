@@ -7,6 +7,7 @@ using MultiShop.Catalog.Services.Abstractions;
 
 namespace MultiShop.Catalog.Controllers
 {
+    [Authorize(Policy = "CatalogFullPermission")]
     [Route("api/[controller]")]
     [ApiController]
     public class FeatureSlidersController : ControllerBase
