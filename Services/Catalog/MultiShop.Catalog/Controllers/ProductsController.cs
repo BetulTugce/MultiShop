@@ -95,5 +95,18 @@ namespace MultiShop.Catalog.Controllers
             }
             return Ok(products);
         }
+
+        [AllowAnonymous]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetFeaturedProducts()
+        {
+            var products = await _productService.GetFeaturedProductsAsync();
+
+            if (!products.Any())
+            {
+                return NotFound();
+            }
+            return Ok(products);
+        }
     }
 }
