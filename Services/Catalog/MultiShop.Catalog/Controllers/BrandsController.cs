@@ -11,18 +11,18 @@ namespace MultiShop.Catalog.Controllers
     [ApiController]
     public class BrandsController : ControllerBase
     {
-        private readonly IBrandService _BrandService;
+        private readonly IBrandService _brandService;
 
-        public BrandsController(IBrandService BrandService)
+        public BrandsController(IBrandService brandService)
         {
-            _BrandService = BrandService;
+            _brandService = brandService;
         }
 
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetBrands()
         {
-            var values = await _BrandService.GetAllBrandsAsync();
+            var values = await _brandService.GetAllBrandsAsync();
             return Ok(values);
         }
 
@@ -30,28 +30,28 @@ namespace MultiShop.Catalog.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBrandById(string id)
         {
-            var value = await _BrandService.GetBrandByIdAsync(id);
+            var value = await _brandService.GetBrandByIdAsync(id);
             return Ok(value);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateBrand(CreateBrandDto createBrandDto)
         {
-            await _BrandService.CreateBrandAsync(createBrandDto);
+            await _brandService.CreateBrandAsync(createBrandDto);
             return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteBrand(string id)
         {
-            await _BrandService.DeleteBrandAsync(id);
+            await _brandService.DeleteBrandAsync(id);
             return NoContent();
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateBrand(UpdateBrandDto updateBrandDto)
         {
-            await _BrandService.UpdateBrandAsync(updateBrandDto);
+            await _brandService.UpdateBrandAsync(updateBrandDto);
             return Ok();
         }
     }
