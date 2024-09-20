@@ -18,14 +18,14 @@ namespace MultiShop.WebUI.ViewComponents.DefaultViewComponents
             // HTTP istekleri için bir HttpClient oluşturuluyor..
             var client = _httpClientFactory.CreateClient();
             // APIdan kategorileri almak için bir GET isteği gönderiliyor..
-            var responseMessage = await client.GetAsync("https://localhost:44326/api/Categories");
+            var responseMessage = await client.GetAsync("https://localhost:44326/api/Categories/GetFeaturedCategories");
             // Eğer istek başarılıysa (HTTP 200 gibi bir başarı kodu döndüyse) bu blok çalışır.
             if (responseMessage.IsSuccessStatusCode)
             {
                 // Gelen yanıtın içeriği string formatında okunuyor..
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
                 // JSON formatındaki veriyi CategoryListVM türünde bir listeye dönüştürülüyor..
-                var values = JsonConvert.DeserializeObject<List<CategoryListVM>>(jsonData);
+                var values = JsonConvert.DeserializeObject<List<CategoryFeaturedVM>>(jsonData);
                 // Verileri View ile birlikte döndürüyor..
                 return View(values);
             }

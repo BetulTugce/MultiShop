@@ -29,7 +29,16 @@ namespace MultiShop.Catalog.Controllers
 			return Ok(values);
 		}
 
-		[AllowAnonymous]
+        [AllowAnonymous]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetFeaturedCategories()
+        {
+			// Bu endpoint kullanıcı panelinde kategorilerin fotoğrafları ve ürün sayıları ile listelendiği alan için kullanılacak..
+            var values = await _categoryService.GetCategoriesWithProductCountAsync();
+            return Ok(values);
+        }
+
+        [AllowAnonymous]
 		//[Authorize(Policy = "CatalogReadOrFullPermission")]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetCategoryById(string id)
@@ -38,7 +47,7 @@ namespace MultiShop.Catalog.Controllers
 			return Ok(value);
 		}
 
-		[HttpPost]
+        [HttpPost]
 		public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
 		{
 			await _categoryService.CreateCategoryAsync(createCategoryDto);
@@ -52,7 +61,7 @@ namespace MultiShop.Catalog.Controllers
 			return NoContent();
 		}
 
-		[HttpPut]
+        [HttpPut]
 		public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
 		{
 			await _categoryService.UpdateCategoryAsync(updateCategoryDto);

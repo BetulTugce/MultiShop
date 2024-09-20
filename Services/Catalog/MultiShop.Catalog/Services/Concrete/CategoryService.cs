@@ -45,5 +45,11 @@ namespace MultiShop.Catalog.Services.Concrete
 			var category = await _categoryRepository.GetByIdAsync(id);
 			return _mapper.Map<GetByIdCategoryDto>(category);
 		}
-	}
+
+        public async Task<List<FeaturedCategoryDto>> GetCategoriesWithProductCountAsync()
+        {
+            var categories = await _categoryRepository.GetCategoriesWithProductCountAsync();
+			return _mapper.Map<List<FeaturedCategoryDto>>(categories);
+        }
+    }
 }

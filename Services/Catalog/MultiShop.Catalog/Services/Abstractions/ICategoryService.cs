@@ -1,4 +1,5 @@
 ﻿using MultiShop.Catalog.Dtos.CategoryDtos;
+using MultiShop.Catalog.Entities;
 
 namespace MultiShop.Catalog.Services.Abstractions
 {
@@ -9,5 +10,6 @@ namespace MultiShop.Catalog.Services.Abstractions
 		Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto);
 		Task DeleteCategoryAsync(string id);
 		Task<GetByIdCategoryDto> GetCategoryByIdAsync(string id);
-	}
+        Task<List<FeaturedCategoryDto>> GetCategoriesWithProductCountAsync();
+    }
 }

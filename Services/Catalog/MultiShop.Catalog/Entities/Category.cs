@@ -11,5 +11,9 @@ namespace MultiShop.Catalog.Entities
 
         public string Name { get; set; }
         public string ImageUrl { get; set; }
+
+        // Bu alan veritabanına kaydedilmeyecek
+        [BsonIgnore]
+        public long ProductCount { get; set; }
     }
 }
