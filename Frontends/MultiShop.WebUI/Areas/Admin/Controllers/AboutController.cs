@@ -61,13 +61,18 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> CreateAbout(AboutCreateVM aboutCreateVM)
         {
             var client = _httpClientFactory.CreateClient();
-            // AboutCreateVM modeli JSON formatına dönüştürülüyor..
-            var jsonData = JsonConvert.SerializeObject(aboutCreateVM);
-            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:44326/api/Abouts", content);
+            var responseMessage = await client.DeleteAsync($"https://localhost:44326/api/Abouts/DeleteAllAbouts");
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "About", new { area = "Admin" });
+                // AboutCreateVM modeli JSON formatına dönüştürülüyor..
+                var jsonData = JsonConvert.SerializeObject(aboutCreateVM);
+                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var responseMessage2 = await client.PostAsync("https://localhost:44326/api/Abouts", content);
+                if (responseMessage2.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index", "About", new { area = "Admin" });
+                }
+                
             }
             return View();
         }
@@ -77,6 +82,18 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         {
             var client = _httpClientFactory.CreateClient();
             var responseMessage = await client.DeleteAsync($"https://localhost:44326/api/Abouts?id={id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "About", new { area = "Admin" });
+            }
+            return View();
+        }
+
+        [Route("DeleteAllAbouts")]
+        public async Task<IActionResult> DeleteAllAbouts()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.DeleteAsync($"https://localhost:44326/api/Abouts/DeleteAllAbouts");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "About", new { area = "Admin" });

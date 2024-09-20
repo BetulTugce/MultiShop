@@ -9,5 +9,6 @@ namespace MultiShop.Catalog.Services.Abstractions
         Task UpdateAboutAsync(UpdateAboutDto updateAboutDto);
         Task DeleteAboutAsync(string id);
         Task<GetByIdAboutDto> GetAboutByIdAsync(string id);
+        Task DeleteAllAsync();
     }
 }

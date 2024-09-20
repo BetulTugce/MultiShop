@@ -49,6 +49,13 @@ namespace MultiShop.Catalog.Controllers
             return NoContent();
         }
 
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> DeleteAllAbouts()
+        {
+            await _aboutService.DeleteAllAsync();
+            return NoContent();
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateAbout(UpdateAboutDto updateAboutDto)
         {

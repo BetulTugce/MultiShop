@@ -8,5 +8,6 @@
 		Task CreateAsync(T entity);
 		Task UpdateAsync(T entity);
 		Task DeleteAsync(string id);
+		Task DeleteAllAsync();
 	}
 }

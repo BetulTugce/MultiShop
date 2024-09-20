@@ -46,5 +46,10 @@ namespace MultiShop.Catalog.Services.Concrete
             var About = _mapper.Map<About>(updateAboutDto);
             await _aboutRepository.UpdateAsync(About);
         }
+
+        public async Task DeleteAllAsync()
+        {
+            await _aboutRepository.DeleteAllAsync();
+        }
     }
 }

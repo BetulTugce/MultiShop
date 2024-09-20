@@ -42,5 +42,13 @@ namespace MultiShop.Catalog.Repositories.Concrete
 		{
 			await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("Id", id));
 		}
-	}
+
+        public async Task DeleteAllAsync()
+        {
+            // Tüm dökümanları silmek için boş bir filtre tanımlanıyor..
+            var filter = Builders<T>.Filter.Empty;
+
+			await _collection.DeleteManyAsync(filter);
+        }
+    }
 }
