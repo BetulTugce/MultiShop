@@ -30,7 +30,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
             // HTTP istekleri için bir HttpClient oluşturuluyor..
             var client = _httpClientFactory.CreateClient();
-            // APIdan kategorileri almak için bir GET isteği gönderiliyor..
+            // APIdan ürünleri almak için bir GET isteği gönderiliyor..
             var responseMessage = await client.GetAsync("https://localhost:44326/api/Products");
             // Eğer istek başarılıysa (HTTP 200 gibi bir başarı kodu döndüyse) bu blok çalışır.
             if (responseMessage.IsSuccessStatusCode)

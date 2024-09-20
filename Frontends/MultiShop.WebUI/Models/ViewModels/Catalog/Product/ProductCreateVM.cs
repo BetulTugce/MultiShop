@@ -8,5 +8,8 @@
         public string Description { get; set; }
 
         public string CategoryId { get; set; }
+
+        // Kuponsuz indirim oranı
+        public int? DiscountRate { get; set; }
     }
 }

@@ -21,5 +21,11 @@ namespace MultiShop.Catalog.Entities
 		public string CategoryId { get; set; }
         [BsonIgnore]
         public Category Category { get; set; }
+
+        // Kuponsuz indirim oranı
+        public int? DiscountRate { get; set; }
+
+        //// Gömülü ProductDetail
+        //public ProductDetail ProductDetail { get; set; }
     }
 }

@@ -16,12 +16,15 @@
                         <label>Ürün Adı</label>
                         <input type="text" class="form-control" asp-for="Name" />
                         <br />
-                        <label>Fiyatı</label>
-                        <input type="number" class="form-control" asp-for="Price" step="0.01" min="0" max="1000000000" />
-                        <br />
                         <label>Kategori</label>
                         @* @Html.DropDownListFor(p => p.CategoryId, (List<SelectListItem>)ViewBag.CategoryList, new { @class = "form-control" }) *@
                         @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewBag.CategoryId, "Kategori Seçiniz", new { @class = "form-control" })
+                        <br />
+                        <label>Fiyatı</label>
+                        <input type="number" class="form-control" asp-for="Price" step="0.01" min="0" max="1000000000" />
+                        <br />
+                        <label>İndirim Oranı (opsiyonel)</label>
+                        <input type="number" class="form-control" asp-for="DiscountRate" step="1" min="0" max="100" />
                         <br />
                         <label>Kapak Fotoğrafı</label>
                         <input type="text" class="form-control" asp-for="ImageUrl" />

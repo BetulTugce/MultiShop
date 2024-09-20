@@ -13,5 +13,8 @@ namespace MultiShop.Catalog.Dtos.ProductDtos
 
         public string CategoryId { get; set; }
         public ResultCategoryDto Category { get; set; }
+
+        // Kuponsuz indirim oranı
+        public int? DiscountRate { get; set; }
     }
 }

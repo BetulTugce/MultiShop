@@ -13,5 +13,8 @@ namespace MultiShop.WebUI.Models.ViewModels.Catalog.Product
 
         public string CategoryId { get; set; }
         public CategoryVM Category { get; set; }
+
+        // Kuponsuz indirim oranı
+        public int? DiscountRate { get; set; }
     }
 }
