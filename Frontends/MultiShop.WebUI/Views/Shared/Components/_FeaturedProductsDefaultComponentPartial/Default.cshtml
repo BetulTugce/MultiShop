@@ -1,12 +1,15 @@
 ﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.Product
 @model List<ProductListVM>
 
- <!-- Featured Products Start -->
-<div class="container-fluid pt-5 pb-3">
-    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Öne Çıkan Ürünler</span></h2>
-    <div class="row px-xl-5">
-        @for (int i = 0; i < Model.Count; i++)
-        {
+<!-- Featured Products Start -->
+@if (Model != null)
+{
+    <div class="container-fluid pt-5 pb-3">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Öne Çıkan Ürünler</span></h2>
+        <div class="row px-xl-5">
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
@@ -25,13 +28,14 @@
                             <div class="d-flex align-items-center justify-content-center mt-2">
                                 <h5>@(Model[i].Price - Model[i].Price * Model[i].DiscountRate / 100) ₺</h5><h6 class="text-muted ml-2"><del>@Model[i].Price ₺</del></h6>
                             </div>
-                        }else
+                        }
+                        else
                         {
                             <div class="d-flex align-items-center justify-content-center mt-2">
                                 <h5>@Model[i].Price ₺</h5>
                             </div>
                         }
-                        
+
                         <div class="d-flex align-items-center justify-content-center mb-1">
                             <small class="fa fa-star text-primary mr-1"></small>
                             <small class="fa fa-star text-primary mr-1"></small>
@@ -43,8 +47,9 @@
                     </div>
                 </div>
             </div>
-        }
-        
+            }
+
+        </div>
     </div>
-</div>
+}
 <!-- Featured Products End -->

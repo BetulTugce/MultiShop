@@ -16,5 +16,6 @@ namespace MultiShop.Catalog.Dtos.ProductDtos
 
         // Kuponsuz indirim oranı
         public int? DiscountRate { get; set; }
+        public bool IsFeatured { get; set; }
     }
 }

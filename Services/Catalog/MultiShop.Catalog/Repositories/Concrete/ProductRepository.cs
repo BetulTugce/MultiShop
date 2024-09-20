@@ -17,6 +17,15 @@ namespace MultiShop.Catalog.Repositories.Concrete
             _categoryCollection = database.GetCollection<Category>(databaseSettings.CategoryCollectionName);
         }
 
+        public async Task<List<Product>> GetFeaturedProductsAsync()
+        {
+            var filter = Builders<Product>.Filter.Eq(p => p.IsFeatured, true);
+            var products = await _collection
+                .Find(filter)
+                .ToListAsync();
+            return products;
+        }
+
         // Ürünleri sayfa, sayfa boyutu ve kategoriye göre filtreleyerek getirir..
         public async Task<List<Product>> GetProductsByCategoryAndPageAsync(string categoryId, int page, int size)
         {

@@ -14,5 +14,6 @@ namespace MultiShop.Catalog.Services.Abstractions
 		Task<List<ResultProductDto>> GetProductsByPageAsync(int page, int size);
 		Task<List<ResultProductDto>> GetProductsByCategoryAndPageAsync(string categoryId, int page, int size);
         Task<List<ResultProductWithCategoryDto>> GetProductsWithCategoryAsync();
+        Task<List<ResultProductDto>> GetFeaturedProductsAsync();
     }
 }

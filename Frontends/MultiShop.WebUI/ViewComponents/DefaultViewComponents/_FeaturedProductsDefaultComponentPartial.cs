@@ -19,7 +19,7 @@ namespace MultiShop.WebUI.ViewComponents.DefaultViewComponents
             // HTTP istekleri için bir HttpClient oluşturuluyor..
             var client = _httpClientFactory.CreateClient();
             // APIdan öne çıkan ürünleri almak için bir GET isteği gönderiliyor..
-            var responseMessage = await client.GetAsync("https://localhost:44326/api/Products");
+            var responseMessage = await client.GetAsync("https://localhost:44326/api/Products/GetFeaturedProducts");
             // Eğer istek başarılıysa (HTTP 200 gibi bir başarı kodu döndüyse) bu blok çalışır.
             if (responseMessage.IsSuccessStatusCode)
             {
