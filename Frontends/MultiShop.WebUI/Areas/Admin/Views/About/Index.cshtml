@@ -1,0 +1,50 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.About
+@model List<AboutListVM>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    int counter = 0;
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Hakkımızda Listesi</h4>
+                <a href="/Admin/About/CreateAbout" style="margin-bottom: 10px;" class="btn btn-primary">Yeni</a>
+                <div class="bs-example" data-example-id="bordered-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>İçerik</th>
+                                <th>Adres</th>
+                                <th>Email</th>
+                                <th>Telefon Numarası</th>
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var about in Model)
+                            {
+                                counter++;
+                                <tr>
+                                    <th scope="row">@counter</th>
+                                    <td>@about.Content</td>
+                                    <td>@about.Address</td>
+                                    <td>@about.Email</td>
+                                    <td>@about.PhoneNumber</td>
+                                    <td><a href="/Admin/About/UpdateAbout/@about.Id" class="btn btn-warning">Güncelle</a></td>
+                                    <td><a href="/Admin/About/DeleteAbout/@about.Id" class="btn btn-danger">Sil</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

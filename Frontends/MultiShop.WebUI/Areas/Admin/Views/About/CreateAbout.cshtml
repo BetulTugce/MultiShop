@@ -1,0 +1,35 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.About
+@model AboutCreateVM
+
+@{
+    ViewData["Title"] = "CreateAbout";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Yeni Hakkımızda Bölümü</h4>
+                <div class="form-group">
+                    <form method="post">
+                        <label>İçerik</label>
+                        <input type="text" class="form-control" asp-for="Content" />
+                        <br />
+                        <label>Adres</label>
+                        <input type="text" class="form-control" asp-for="Address" />
+                        <br />
+                        <label>Email</label>
+                        <input type="email" class="form-control" asp-for="Email" />
+                        <br />
+                        <label>Telefon Numarası</label>
+                        <input type="tel" class="form-control" asp-for="PhoneNumber" />
+                        <br />
+                        <button type="submit" class="btn btn-primary">Oluştur</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

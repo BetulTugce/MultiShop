@@ -1,4 +1,4 @@
-﻿,using MultiShop.Catalog.Entities;
+﻿using MultiShop.Catalog.Entities;
 
 namespace MultiShop.Catalog.Repositories.Abstractions
 {
