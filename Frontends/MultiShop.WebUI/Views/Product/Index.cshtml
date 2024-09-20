@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/UILayout/_UILayout.cshtml";
 }
@@ -37,7 +36,7 @@
         <div class="col-lg-9 col-md-8">
             <div class="row pb-3">
                 @await Component.InvokeAsync("_ProductsSortingComponentPartial")
-                @await Component.InvokeAsync("_ProductsComponentPartial")
+                @await Component.InvokeAsync("_ProductsComponentPartial", new { id = ViewBag.Id, page = ViewBag.Page, size = ViewBag.Size })
                 @await Component.InvokeAsync("_ProductsPaginationComponentPartial")
             </div>
         </div>
@@ -45,4 +44,3 @@
     </div>
 </div>
 <!-- Shop End -->
-
