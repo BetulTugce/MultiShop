@@ -1,0 +1,46 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.Brand
+@model List<BrandListVM>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    int counter = 0;
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Marka Listesi</h4>
+                <a href="/Admin/Brand/CreateBrand" style="margin-bottom: 10px;" class="btn btn-primary">Yeni</a>
+                <div class="bs-example" data-example-id="bordered-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Marka Adı</th>
+                                <th>Görsel</th>
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var brand in Model)
+                            {
+                                counter++;
+                                <tr>
+                                    <th scope="row">@counter</th>
+                                    <td>@brand.Name</td>
+                                    <td><img src="@brand.ImageUrl" style="width:50px; height:50px;" /></td>
+                                    <td><a href="/Admin/Brand/UpdateBrand/@brand.Id" class="btn btn-warning">Güncelle</a></td>
+                                    <td><a href="/Admin/Brand/DeleteBrand/@brand.Id" class="btn btn-danger">Sil</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

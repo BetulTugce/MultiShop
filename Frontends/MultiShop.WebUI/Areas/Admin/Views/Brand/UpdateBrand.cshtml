@@ -1,0 +1,32 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.Brand
+@model BrandUpdateVM
+
+@{
+    ViewData["Title"] = "UpdateBrand";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>@Model.Name</h4>
+                <div class="form-group">
+                    <form method="post">
+                        @* <label>Id</label>
+                        <input type="hidden" readonly class="form-control" asp-for="Id" />
+                        <br /> *@
+                        <label>Marka Adı</label>
+                        <input type="text" class="form-control" asp-for="Name" />
+                        <br />
+                        <label>Görsel</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        <br />
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
