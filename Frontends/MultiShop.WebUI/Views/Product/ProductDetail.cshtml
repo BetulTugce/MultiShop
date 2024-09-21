@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "ProductDetail";
     Layout = "~/Views/UILayout/_UILayout.cshtml";
 }
@@ -22,7 +21,7 @@
     <div class="row px-xl-5">
         @await Component.InvokeAsync("_ProductDetailImageSliderComponentPartial")
 
-        @await Component.InvokeAsync("_ProductDetailFeatureComponentPartial")
+        @await Component.InvokeAsync("_ProductDetailFeatureComponentPartial", new { id = ViewBag.Id })
     </div>
     <div class="row px-xl-5">
         <div class="col">
@@ -42,6 +41,7 @@
     </div>
 </div>
 <!-- Shop Detail End -->
+@* TODO: Bu alan daha sonra düzenlenecek.. *@
 <!-- Products Start -->
 <div class="container-fluid py-5">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
