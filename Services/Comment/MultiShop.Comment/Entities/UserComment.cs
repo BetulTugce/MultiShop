@@ -11,5 +11,7 @@
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool IsApproved { get; set; } // Onaylanan yorumlar uida gösterilecek..
+
+        public string ProductId { get; set; }
     }
 }
