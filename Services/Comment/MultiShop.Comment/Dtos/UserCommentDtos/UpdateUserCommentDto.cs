@@ -1,4 +1,6 @@
-﻿namespace MultiShop.Comment.Dtos.UserCommentDtos
+﻿using MultiShop.Comment.Entities;
+
+namespace MultiShop.Comment.Dtos.UserCommentDtos
 {
     public class UpdateUserCommentDto
     {
@@ -13,5 +15,24 @@
         public bool IsApproved { get; set; } // Onaylanan yorumlar uida gösterilecek..
 
         public string ProductId { get; set; }
+
+        #region Implicit/Bilinçsiz Operator Overload ile Dönüştürme
+        public static implicit operator UserComment(UpdateUserCommentDto model)
+        {
+            return new UserComment
+            {
+                Id = model.Id,
+                Name = model.Name,
+                ImageUrl = model.ImageUrl,
+                Content = model.Content,
+                Email = model.Email,
+                CreatedDate = model.CreatedDate,
+                UpdatedDate = model.UpdatedDate,
+                IsApproved = model.IsApproved,
+                ProductId = model.ProductId,
+                Rating = model.Rating
+            };
+        }
+        #endregion
     }
 }

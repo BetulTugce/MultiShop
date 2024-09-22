@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using MultiShop.Comment.Abstract;
+using MultiShop.Comment.Concrete;
 using MultiShop.Comment.Contexts;
 using System.Reflection;
 
@@ -10,6 +12,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
+builder.Services.AddScoped<IUserCommentService, UserCommentService>();
 
 // CommentContext sinifi DI containera ekleniyor..
 builder.Services.AddDbContext<CommentContext>(options =>
