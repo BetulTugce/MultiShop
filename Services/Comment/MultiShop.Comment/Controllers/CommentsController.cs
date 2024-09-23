@@ -21,6 +21,7 @@ namespace MultiShop.Comment.Controllers
             _service = service;
         }
 
+        [AllowAnonymous]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetCommentsByProductIdAsync([FromQuery] string productId, bool isApproved)
         {
@@ -49,6 +50,7 @@ namespace MultiShop.Comment.Controllers
             return Ok(comments);
         }
 
+        [AllowAnonymous]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetCommentsByProductIdPageAndSizeAsync([FromQuery] string productId, bool isApproved, int page = 1, int size = 10)
         {
@@ -64,6 +66,7 @@ namespace MultiShop.Comment.Controllers
             return Ok(comments);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCommentById(int id)
         {
