@@ -11,23 +11,27 @@ namespace MultiShop.Comment.Concrete
     {
         protected readonly CommentContext _context;
         protected readonly DbSet<T> _dbSet;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GenericService(CommentContext context)
+        public GenericService(CommentContext context, IUnitOfWork unitOfWork)
         {
             _context = context;
             _dbSet = _context.Set<T>();
+            _unitOfWork = unitOfWork;
         }
 
         // Veritabanına asenkron olarak bir nesne ekler.
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+            await _unitOfWork.CommitAsync();
         }
 
         // Veritabanına asenkron olarak bir nesne koleksiyonu ekler.
         public async Task AddRangeAsync(IEnumerable<T> entities)
         {
             await _dbSet.AddRangeAsync(entities);
+            await _unitOfWork.CommitAsync();
         }
 
         // Belirli bir koşula uyan nesne var mı yok mu kontrolünü asenkron olarak yapar.
@@ -67,18 +71,21 @@ namespace MultiShop.Comment.Concrete
         public void Remove(T entity)
         {
             _dbSet.Remove(entity);
+            _unitOfWork.Commit();
         }
 
         // Bir nesne koleksiyonunu veritabanından kaldırır.
         public void RemoveRange(IEnumerable<T> entities)
         {
             _dbSet.RemoveRange(entities);
+            _unitOfWork.Commit();
         }
 
         // Bir nesneyi günceller.
         public bool Update(T entity)
         {
             EntityEntry response = _dbSet.Update(entity);
+            _unitOfWork.Commit();
             return response.State == EntityState.Modified;
         }
 

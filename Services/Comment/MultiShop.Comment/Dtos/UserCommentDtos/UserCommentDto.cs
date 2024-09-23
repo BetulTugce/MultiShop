@@ -33,6 +33,23 @@ namespace MultiShop.Comment.Dtos.UserCommentDtos
                 Rating = model.Rating
             };
         }
+
+        public static implicit operator UserCommentDto(UserComment model)
+        {
+            return new UserCommentDto
+            {
+                Id = model.Id,
+                Name = model.Name,
+                ImageUrl = model.ImageUrl,
+                Content = model.Content,
+                Email = model.Email,
+                CreatedDate = model.CreatedDate,
+                UpdatedDate = model.UpdatedDate,
+                IsApproved = model.IsApproved,
+                ProductId = model.ProductId,
+                Rating = model.Rating
+            };
+        }
         #endregion
     }
 }

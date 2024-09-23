@@ -7,7 +7,7 @@ namespace MultiShop.Comment.Concrete
 {
     public class UserCommentService : GenericService<UserComment>, IUserCommentService
     {
-        public UserCommentService(CommentContext context) : base(context)
+        public UserCommentService(CommentContext context, IUnitOfWork unitOfWork) : base(context, unitOfWork)
         {
         }
 
@@ -20,7 +20,7 @@ namespace MultiShop.Comment.Concrete
         {
             return await _context.UserComments.AsNoTracking().Where
                 (i => i.ProductId == productId && i.IsApproved == isApproved)
-                .Skip(page * size)
+                .Skip((page - 1) * size)
                 .Take(size)
                 .ToListAsync();
         }
