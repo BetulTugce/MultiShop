@@ -9,6 +9,7 @@ using System.Net;
 
 namespace MultiShop.Comment.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
