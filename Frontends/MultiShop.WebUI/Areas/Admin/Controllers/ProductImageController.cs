@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MultiShop.WebUI.Enums;
 using MultiShop.WebUI.Models.ViewModels.Catalog.ProductImage;
-using MultiShop.WebUI.Services;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -13,12 +11,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
     public class ProductImageController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly FileService _fileService;
 
-        public ProductImageController(IHttpClientFactory httpClientFactory, FileService fileService)
+        public ProductImageController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _fileService = fileService;
         }
 
         //[Route("UpdateProductImage/{id}")]
@@ -39,45 +35,49 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateProductImage(ProductImageUpdateVM productImageUpdateVM)
         {
+            // Yüklenen dosyalar APIya gönderilmek üzere hazırlanıyor..
             if (productImageUpdateVM.UploadedImages != null && productImageUpdateVM.UploadedImages.Count > 0)
             {
+                var client = _httpClientFactory.CreateClient();
+
+                // Multipart form-data içeriği oluşturuluyor..
+                using var formContent = new MultipartFormDataContent();
+
+                // Yüklenen her dosya formDataya ekleniyor
                 foreach (var file in productImageUpdateVM.UploadedImages)
                 {
-                    // Dosya boyutu kontrol ediliyor..
-                    if (file.Length > 10 * 1024 * 1024) // 10MB sınırı
+                    if (file.Length > 0)
                     {
-                        // Dosya boyutu 10MB'tan büyük olamaz uyarısı verilecek..
-                        //return BadRequest("Dosya boyutu 10MB'tan büyük olamaz.");
+                        var streamContent = new StreamContent(file.OpenReadStream());
+                        streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                        formContent.Add(streamContent, "files", file.FileName);
                     }
-                    // Dosya adı rastgele oluşturuluyor..
-                    string randomFileName = _fileService.GenerateRandomFileName(file.FileName);
-
-                    // Dosya yolu alınıyor..
-                    string filePath = _fileService.GetFilePath(randomFileName, ImageDirectory.ProductImages.ToString());
-
-                    // Dosya kaydediliyor..
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-                    // Daha sonra kaydettiğiniz dosyanın URL'sini veritabanına ekleyebilirsiniz.
-                    productImageUpdateVM.Images.Add($"/{ImageDirectory.ProductImages}/{randomFileName}");
                 }
-            }
 
-            var client = _httpClientFactory.CreateClient();
-            ProductImageVM productImageVM = new ProductImageVM()
-            {
-                Id = productImageUpdateVM.Id,
-                ProductId = productImageUpdateVM.ProductId,
-                Images = productImageUpdateVM.Images,
-            };
-            var jsonData = JsonConvert.SerializeObject(productImageVM);
-            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:44326/api/ProductImages", content);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
+                // Dosyalar apiya gönderiliyor..
+                var response = await client.PostAsync("https://localhost:44326/api/ProductImages/UploadFiles", formContent);
+                
+                if (response.IsSuccessStatusCode) // Dosyalar apiya başarıyla yüklendiyse..
+                {
+                    // Apidan dönen
+                    var data = await response.Content.ReadFromJsonAsync<List<string>>();
+                    ProductImageVM productImageVM2 = new ProductImageVM()
+                    {
+                        Id = productImageUpdateVM.Id,
+                        ProductId = productImageUpdateVM.ProductId,
+                        Images = productImageUpdateVM.Images,
+                    };
+                    if (data is not null) { productImageVM2.Images.AddRange(data); }
+                    
+                    var jsonData2 = JsonConvert.SerializeObject(productImageVM2);
+                    StringContent content2 = new StringContent(jsonData2, Encoding.UTF8, "application/json");
+                    var responseMessage2 = await client.PutAsync("https://localhost:44326/api/ProductImages", content2);
+                    if (responseMessage2.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
+                    }
+                    return View();
+                }
             }
             return View();
         }

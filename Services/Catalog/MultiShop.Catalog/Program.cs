@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using MultiShop.Catalog.Mapping;
 using MultiShop.Catalog.Repositories.Abstractions;
 using MultiShop.Catalog.Repositories.Concrete;
+using MultiShop.Catalog.Services;
 using MultiShop.Catalog.Services.Abstractions;
 using MultiShop.Catalog.Services.Concrete;
 using MultiShop.Catalog.Settings;
@@ -45,6 +46,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 //Repository ve serviceler DI containera ekleniyor..
+builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
