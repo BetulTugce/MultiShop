@@ -113,6 +113,7 @@ namespace MultiShop.Catalog.Controllers
             return Ok(products);
         }
 
+        [AllowAnonymous]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetProductCoverImage(string id)
         {
@@ -147,7 +148,9 @@ namespace MultiShop.Catalog.Controllers
             {
                 await file.CopyToAsync(stream);
             }
-            return Ok(new { FileName = randomFileName, FilePath = filePath });
+
+            //return Ok(new { FileName = randomFileName, FilePath = filePath });
+            return Ok($"/{ImageDirectory.ProductCoverImages}/{randomFileName}");
         }
 
         [HttpPost("[action]")]

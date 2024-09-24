@@ -12,7 +12,7 @@
                 <h4>Yeni Ürün</h4>
                 @* <p>Ürün ekleme işleminizi bu panelden gerçekleştirebilirsiniz.</p> *@
                 <div class="form-group">
-                    <form method="post">
+                    <form enctype="multipart/form-data" method="post">
                         <label>Ürün Adı</label>
                         <input type="text" class="form-control" asp-for="Name" />
                         <br />
@@ -30,7 +30,9 @@
                         <input type="checkbox" class="form-control" asp-for="IsFeatured" />
                         <br />
                         <label>Kapak Fotoğrafı</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        @* <input type="text" class="form-control" asp-for="ImageUrl" />
+                        <br /> *@
+                        <input type="file" class="form-control" name="UploadedImage" />
                         <br />
                         <label>Açıklama</label>
                         <textarea rows="5" class="form-control" asp-for="Description"></textarea>

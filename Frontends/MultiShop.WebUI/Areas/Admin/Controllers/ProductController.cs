@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MultiShop.WebUI.Models.ViewModels.Catalog.Category;
 using MultiShop.WebUI.Models.ViewModels.Catalog.Product;
+using MultiShop.WebUI.Models.ViewModels.Catalog.ProductImage;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -72,9 +73,17 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
         [Route("CreateProduct")]
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProductCreateVM productCreateVM)
+        public async Task<IActionResult> CreateProduct(ProductCreateVM productCreateVM, IFormFile UploadedImage)
         {
             var client = _httpClientFactory.CreateClient();
+            if (UploadedImage is not null)
+            {
+                var uploadedImagePath = await UploadImageAsync(client, UploadedImage);
+                if (uploadedImagePath is null) return BadRequest("Resim yükleme sırasında bir hata meydana geldi.");
+
+                productCreateVM.ImageUrl = uploadedImagePath;
+            }
+            
             // productCreateVM modeli JSON formatına dönüştürülüyor..
             var jsonData = JsonConvert.SerializeObject(productCreateVM);
             StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -90,6 +99,22 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
                 return View();
             }
             return View();
+        }
+
+        private async Task<string> UploadImageAsync(HttpClient client, IFormFile uploadedImage)
+        {
+            using var formContent = new MultipartFormDataContent();
+
+            if (uploadedImage.Length > 0)
+            {
+                var streamContent = new StreamContent(uploadedImage.OpenReadStream());
+                streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(uploadedImage.ContentType);
+                formContent.Add(streamContent, "file", uploadedImage.FileName);
+            }
+
+            var response = await client.PostAsync("https://localhost:44326/api/Products/UploadFile", formContent);
+
+            return response.IsSuccessStatusCode ? await response.Content.ReadAsStringAsync() : null;
         }
 
         [Route("DeleteProduct/{id}")]
