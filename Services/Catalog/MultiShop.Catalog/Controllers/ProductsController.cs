@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.ProductDtos;
+using MultiShop.Catalog.Enums;
+using MultiShop.Catalog.Services;
 using MultiShop.Catalog.Services.Abstractions;
 using System.Net;
 
@@ -13,10 +15,12 @@ namespace MultiShop.Catalog.Controllers
 	public class ProductsController : ControllerBase
 	{
 		private readonly IProductService _productService;
+        private readonly FileService _fileService;
 
-		public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, FileService fileService)
 		{
 			_productService = productService;
+			_fileService = fileService;
 		}
 
 		[AllowAnonymous]
@@ -107,6 +111,21 @@ namespace MultiShop.Catalog.Controllers
                 return NotFound();
             }
             return Ok(products);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetProductCoverImage(string id)
+        {
+            var response = await _productService.GetProductCoverImageByIdAsync(id);
+
+            if (response == null)
+            {
+                return NotFound();
+            }
+
+            byte[] imageBytes = await _fileService.GetImageAsync(response, ImageDirectory.ProductCoverImages.ToString());
+
+            return File(imageBytes, "image/jpeg"); // Resmi JPEG olarak döndürüyor..
         }
     }
 }

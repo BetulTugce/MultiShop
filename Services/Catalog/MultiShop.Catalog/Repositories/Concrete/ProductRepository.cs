@@ -26,6 +26,12 @@ namespace MultiShop.Catalog.Repositories.Concrete
             return products;
         }
 
+        public async Task<string> GetProductCoverImageByIdAsync(string id)
+        {
+            var product = await _collection.Find(id).FirstOrDefaultAsync();
+            return product.ImageUrl;
+        }
+
         // Ürünleri sayfa, sayfa boyutu ve kategoriye göre filtreleyerek getirir..
         public async Task<List<Product>> GetProductsByCategoryAndPageAsync(string categoryId, int page, int size)
         {
