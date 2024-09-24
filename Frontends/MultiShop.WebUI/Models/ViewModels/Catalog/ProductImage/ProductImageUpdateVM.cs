@@ -6,8 +6,5 @@
         public List<string> Images { get; set; } = new List<string>();
 
         public string ProductId { get; set; }
-
-        // Dosya yükleme işlemi için
-        public List<IFormFile> UploadedImages { get; set; }  // Birden fazla fotoğraf yükleme
     }
 }

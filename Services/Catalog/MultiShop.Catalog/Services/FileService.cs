@@ -34,6 +34,7 @@
 
         public void DeleteImage(string fileName, string directoryName)
         {
+            fileName = Path.GetFileName(fileName);
             // Silinecek dosyanın yolu, web kök dizini altındaki parametrede verilen dizin ve dosya adıyla birleştiriliyor..
             var filePath = Path.Combine(_environment.WebRootPath, directoryName, fileName);
             if (System.IO.File.Exists(filePath))

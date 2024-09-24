@@ -1,12 +1,9 @@
-using MultiShop.WebUI.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHttpClient();
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<FileService>();
 
 var app = builder.Build();
 

@@ -52,14 +52,14 @@ namespace MultiShop.Catalog.Controllers
 			return StatusCode(StatusCodes.Status201Created);
 		}
 
-		[HttpDelete]
+        [HttpDelete]
 		public async Task<IActionResult> DeleteProductImage(string id)
 		{
 			await _productImageService.DeleteProductImageAsync(id);
 			return NoContent();
 		}
 
-		[HttpPut]
+        [HttpPut]
 		public async Task<IActionResult> UpdateProductImage(UpdateProductImageDto updateProductImageDto)
 		{
 			await _productImageService.UpdateProductImageAsync(updateProductImageDto);
@@ -121,11 +121,29 @@ namespace MultiShop.Catalog.Controllers
 
                 // Kaydedilen dosyanın yolu listeye ekleniyor..
                 uploadedFilePaths.Add($"/{ImageDirectory.ProductImages}/{randomFileName}");
+                //uploadedFilePaths.Add($"{randomFileName}");
             }
 
             // Dosya yollarını geri döndürüyor..
             return Ok(uploadedFilePaths);
         }
 
+        [HttpPost("[action]")]
+        public IActionResult DeleteImages([FromBody] List<string> imagePaths)
+        {
+            // Eğer liste boşsa 400 döner..
+            if (imagePaths == null || imagePaths.Count == 0)
+            {
+                return BadRequest("Silinecek resim bulunamadı.");
+            }
+
+            foreach (var imagePath in imagePaths)
+            {
+                // Resmin tam dosya yolunu alıyoruz
+                _fileService.DeleteImage(imagePath, ImageDirectory.ProductImages.ToString());
+            }
+
+            return Ok();
+        }
     }
 }
