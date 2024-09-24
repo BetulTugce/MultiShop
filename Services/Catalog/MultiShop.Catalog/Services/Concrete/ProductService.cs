@@ -18,11 +18,11 @@ namespace MultiShop.Catalog.Services.Concrete
 			_mapper = mapper;
 		}
 
-        public async Task CreateProductAsync(CreateProductDto createProductDto)
-		{
-			var product = _mapper.Map<Product>(createProductDto);
-			await _productRepository.CreateAsync(product);
-		}
+		//public async Task CreateProductAsync(CreateProductDto createProductDto)
+		//{
+		//	var product = _mapper.Map<Product>(createProductDto);
+		//	await _productRepository.CreateAsync(product);
+		//}
 
 		public async Task DeleteProductAsync(string id)
 		{
@@ -76,5 +76,12 @@ namespace MultiShop.Catalog.Services.Concrete
 			var product = _mapper.Map<Product>(updateProductDto);
 			await _productRepository.UpdateAsync(product);
 		}
-	}
+
+        async Task<ResultProductDto> IProductService.CreateProductAsync(CreateProductDto createProductDto)
+        {
+			var product = _mapper.Map<Product>(createProductDto);
+			var p = await _productRepository.CreateAsync(product);
+			return _mapper.Map<ResultProductDto>(p);
+		}
+    }
 }

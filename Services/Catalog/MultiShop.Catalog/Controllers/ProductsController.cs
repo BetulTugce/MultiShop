@@ -39,12 +39,19 @@ namespace MultiShop.Catalog.Controllers
 			return Ok(value);
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
-		{
-			await _productService.CreateProductAsync(createProductDto);
-			return StatusCode(StatusCodes.Status201Created);
-		}
+        //[HttpPost]
+        //public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
+        //{
+        //	await _productService.CreateProductAsync(createProductDto);
+        //	return StatusCode(StatusCodes.Status201Created);
+        //}
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
+        {
+            var prod = await _productService.CreateProductAsync(createProductDto);
+            return StatusCode(201, prod);
+        }
 
         [HttpDelete]
 		public async Task<IActionResult> DeleteProduct(string id)

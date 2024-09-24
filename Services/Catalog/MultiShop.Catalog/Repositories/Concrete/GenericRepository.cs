@@ -25,10 +25,10 @@ namespace MultiShop.Catalog.Repositories.Concrete
 			return await _collection.Find(Builders<T>.Filter.Eq("Id", id)).FirstOrDefaultAsync();
 		}
 
-		public async Task CreateAsync(T entity)
-		{
-			await _collection.InsertOneAsync(entity);
-		}
+		//public async Task CreateAsync(T entity)
+		//{
+		//	await _collection.InsertOneAsync(entity);
+		//}
 
 		public async Task UpdateAsync(T entity)
 		{
@@ -49,6 +49,12 @@ namespace MultiShop.Catalog.Repositories.Concrete
             var filter = Builders<T>.Filter.Empty;
 
 			await _collection.DeleteManyAsync(filter);
+        }
+
+        async Task<T> IGenericRepository<T>.CreateAsync(T entity)
+        {
+            await _collection.InsertOneAsync(entity);
+			return entity;
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MultiShop.WebUI.Models.ViewModels.Catalog.Category;
+using MultiShop.WebUI.Models.ViewModels.Catalog.MultiProduct;
 using MultiShop.WebUI.Models.ViewModels.Catalog.Product;
+using MultiShop.WebUI.Models.ViewModels.Catalog.ProductDetail;
 using MultiShop.WebUI.Models.ViewModels.Catalog.ProductImage;
 using Newtonsoft.Json;
 using System.Text;
@@ -73,27 +75,57 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
         [Route("CreateProduct")]
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProductCreateVM productCreateVM, IFormFile UploadedImage)
+        public async Task<IActionResult> CreateProduct(CreateVM createVM, IFormFile UploadedImage, List<IFormFile> UploadedImages)
         {
+            ProductCreateVM prodCreateVM = createVM;
+            ProductDetailCreateVM prodDetailCreateVM = createVM;
             var client = _httpClientFactory.CreateClient();
             if (UploadedImage is not null)
             {
                 var uploadedImagePath = await UploadImageAsync(client, UploadedImage);
                 if (uploadedImagePath is null) return BadRequest("Resim yükleme sırasında bir hata meydana geldi.");
 
-                productCreateVM.ImageUrl = uploadedImagePath;
+                prodCreateVM.ImageUrl = uploadedImagePath;
             }
-            
+
             // productCreateVM modeli JSON formatına dönüştürülüyor..
-            var jsonData = JsonConvert.SerializeObject(productCreateVM);
+            var jsonData = JsonConvert.SerializeObject(prodCreateVM);
             StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:44326/api/Products", content);
-            if (responseMessage.IsSuccessStatusCode)
+            var response = await client.PostAsync("https://localhost:44326/api/Products", content);
+            if (response.IsSuccessStatusCode)
             {
-                //return RedirectToAction("Index", "Product", new { area = "Admin" });
+                // Yanıtı okunuyor..
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                // JSON verisi ProductVM modeline çeviriliyor..
+                var productResponse = JsonConvert.DeserializeObject<ProductVM>(responseContent);
+                // Yüklenen dosyalar var mı kontrol ediliyor..
+                if (UploadedImages != null && UploadedImages.Any())
+                {
+                    var uploadedImagePaths = await UploadImagesAsync(client, UploadedImages);
+                    if (uploadedImagePaths is null) return BadRequest("Resim yükleme sırasında bir hata meydana geldi.");
+                    ProductImageCreateVM imageCreateVM = new ProductImageCreateVM()
+                    {
+                        ProductId = productResponse.Id,
+                        Images = uploadedImagePaths
+                    };
+                    // imageCreateVM modeli JSON formatına dönüştürülüyor..
+                    var jsonData2 = JsonConvert.SerializeObject(imageCreateVM);
+                    StringContent content2 = new StringContent(jsonData2, Encoding.UTF8, "application/json");
+                    var response2 = await client.PostAsync("https://localhost:44326/api/ProductImages", content2);
+
+                    prodDetailCreateVM.ProductId = productResponse.Id;
+
+                    // productDetailCreateVM modeli JSON formatına dönüştürülüyor..
+                    var jsonData3 = JsonConvert.SerializeObject(prodDetailCreateVM);
+                    StringContent content3 = new StringContent(jsonData3, Encoding.UTF8, "application/json");
+                    var response3 = await client.PostAsync("https://localhost:44326/api/ProductDetails", content3);
+
+                }
+
                 return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
             }
-            else if (responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 //TODO: Login sayfasına yönlendirilecek..
                 return View();
@@ -115,6 +147,23 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             var response = await client.PostAsync("https://localhost:44326/api/Products/UploadFile", formContent);
 
             return response.IsSuccessStatusCode ? await response.Content.ReadAsStringAsync() : null;
+        }
+
+        private async Task<List<string>> UploadImagesAsync(HttpClient client, List<IFormFile> uploadedImages)
+        {
+            using var formContent = new MultipartFormDataContent();
+            foreach (var file in uploadedImages)
+            {
+                if (file.Length > 0)
+                {
+                    var streamContent = new StreamContent(file.OpenReadStream());
+                    streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                    formContent.Add(streamContent, "files", file.FileName);
+                }
+            }
+
+            var response = await client.PostAsync("https://localhost:44326/api/ProductImages/UploadFiles", formContent);
+            return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<List<string>>() : null;
         }
 
         [Route("DeleteProduct/{id}")]

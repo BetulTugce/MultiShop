@@ -1,5 +1,8 @@
-﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.Product
-@model ProductCreateVM
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.MultiProduct
+@* @using MultiShop.WebUI.Models.ViewModels.Catalog.Product
+@model ProductCreateVM *@
+
+@model CreateVM
 @{
     ViewData["Title"] = "CreateProduct";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
@@ -14,20 +17,20 @@
                 <div class="form-group">
                     <form enctype="multipart/form-data" method="post">
                         <label>Ürün Adı</label>
-                        <input type="text" class="form-control" asp-for="Name" />
+                        <input type="text" class="form-control" asp-for="ProductCreateVM.Name" />
                         <br />
                         <label>Kategori</label>
                         @* @Html.DropDownListFor(p => p.CategoryId, (List<SelectListItem>)ViewBag.CategoryList, new { @class = "form-control" }) *@
-                        @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewBag.CategoryId, "Kategori Seçiniz", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.ProductCreateVM.CategoryId, (SelectList)ViewBag.CategoryId, "Kategori Seçiniz", new { @class = "form-control" })
                         <br />
                         <label>Fiyatı</label>
-                        <input type="number" class="form-control" asp-for="Price" step="0.01" min="0" max="1000000000" />
+                        <input type="number" class="form-control" asp-for="ProductCreateVM.Price" step="0.01" min="0" max="1000000000" />
                         <br />
                         <label>İndirim Oranı (opsiyonel)</label>
-                        <input type="number" class="form-control" asp-for="DiscountRate" step="1" min="0" max="100" />
+                        <input type="number" class="form-control" asp-for="ProductCreateVM.DiscountRate" step="1" min="0" max="100" />
                         <br />
                         <label>Öne Çıkanlarda Göster</label>
-                        <input type="checkbox" class="form-control" asp-for="IsFeatured" />
+                        <input type="checkbox" class="form-control" asp-for="ProductCreateVM.IsFeatured" />
                         <br />
                         <label>Kapak Fotoğrafı</label>
                         @* <input type="text" class="form-control" asp-for="ImageUrl" />
@@ -35,8 +38,22 @@
                         <input type="file" class="form-control" name="UploadedImage" accept="image/*" />
                         <br />
                         <label>Açıklama</label>
-                        <textarea rows="5" class="form-control" asp-for="Description"></textarea>
+                        <textarea rows="5" class="form-control" asp-for="ProductCreateVM.Description"></textarea>
                         <br />
+
+                        <label>Detaylı Açıklama</label>
+                        <textarea rows="5" class="form-control" asp-for="ProductDetailCreateVM.Description"></textarea>
+                        <br />
+                        <label>Ürün Bilgisi</label>
+                        <textarea rows="5" class="form-control" asp-for="ProductDetailCreateVM.Info"></textarea>
+                        <br />
+
+                        <label>Ürün görselleri</label>
+                        <input type="file" class="form-control" name="UploadedImages" accept="image/*" multiple />
+                        <br />
+
+
+
                         <button type="submit" class="btn btn-primary">Oluştur</button>
                     </form>
                 </div>

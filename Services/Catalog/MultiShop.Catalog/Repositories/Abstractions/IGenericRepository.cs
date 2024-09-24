@@ -5,7 +5,8 @@
 		// Temel CRUD işlemleri..
 		Task<List<T>> GetAllAsync();
 		Task<T> GetByIdAsync(string id);
-		Task CreateAsync(T entity);
+		//Task CreateAsync(T entity);
+		Task<T> CreateAsync(T entity);
 		Task UpdateAsync(T entity);
 		Task DeleteAsync(string id);
 		Task DeleteAllAsync();

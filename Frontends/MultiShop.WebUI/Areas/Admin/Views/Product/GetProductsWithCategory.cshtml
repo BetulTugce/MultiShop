@@ -26,17 +26,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var product in Model)
+                            @if (Model is not null && Model.Any())
                             {
-                                counter++;
-                                <tr>
-                                    <th scope="row">@counter</th>
-                                    <td>@product.Name</td>
-                                    <td>@product.Price</td>
-                                    <td>@product.Category.Name</td>
-                                    <td><a href="/Admin/Product/UpdateProduct/@product.Id" class="btn btn-warning">Güncelle</a></td>
-                                    <td><a href="/Admin/Product/DeleteProduct/@product.Id" class="btn btn-danger">Sil</a></td>
-                                </tr>
+                                foreach (var product in Model)
+                                {
+                                    counter++;
+                                    <tr>
+                                        <th scope="row">@counter</th>
+                                        <td>@product.Name</td>
+                                        <td>@product.Price</td>
+                                        <td>@product.Category.Name</td>
+                                        <td><a href="/Admin/Product/UpdateProduct/@product.Id" class="btn btn-warning">Güncelle</a></td>
+                                        <td><a href="/Admin/Product/DeleteProduct/@product.Id" class="btn btn-danger">Sil</a></td>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
