@@ -1,0 +1,33 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.ProductImage
+@model ProductImageUpdateVM
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <div class="form-group">
+                    <form method="post" enctype="multipart/form-data" asp-area="Admin" asp-action="UpdateProductImage" asp-controller="ProductImage">
+                        <input type="hidden" name="Id" value="@Model.Id" asp-for="Id" />
+                        <input type="hidden" name="ProductId" value="@Model.ProductId" asp-for="ProductId" />
+
+                        <input type="file" class="form-control" name="UploadedImages" multiple />
+                        <br />
+                        <label>Mevcut Görseller</label>
+                        @if (Model.Images != null && Model.Images.Count > 0)
+                        {
+                            <ul>
+                                @foreach (var image in Model.Images)
+                                {
+                                    <li><img src="@image" alt="Ürün Görseli" style="max-width:100px;" /></li>
+                                    <input type="hidden" asp-for="Images" value="@image" />
+                                }
+                            </ul>
+                        }
+                        <br />
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
