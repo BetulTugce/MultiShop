@@ -10,7 +10,7 @@
                         <input type="hidden" name="Id" value="@Model.Id" asp-for="Id" />
                         <input type="hidden" name="ProductId" value="@Model.ProductId" asp-for="ProductId" />
 
-                        <input type="file" class="form-control" name="UploadedImages" multiple />
+                        <input type="file" class="form-control" name="UploadedImages" accept="image/*" multiple />
                         <br />
                         <label>Mevcut Görseller</label>
                         @if (Model.Images != null && Model.Images.Count > 0)
