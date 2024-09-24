@@ -21,79 +21,69 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateProductImage(ProductImageUpdateVM productImageUpdateVM, List<IFormFile> UploadedImages, List<string> DeletedImages)
         {
+            var client = _httpClientFactory.CreateClient();
+
             // Silinecek resimler var mı kontrol ediliyor..
-            if (DeletedImages != null && DeletedImages.Count > 0)
+            if (DeletedImages is not null && DeletedImages.Any())
             {
-                // API'ye silinmesi gereken resimlerin listesini gönderiyoruz
-                var client = _httpClientFactory.CreateClient();
-                var jsonData = JsonConvert.SerializeObject(DeletedImages);
-                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("https://localhost:44326/api/ProductImages/DeleteImages", content);
+                var deleteResult = await DeleteImagesAsync(client, DeletedImages);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    // Eğer API silme işlemi başarısız olursa hata döner..
-                    return BadRequest("İşlem sırasında bir hata meydana geldi. Lütfen tekrar deneyiniz..");
-                }
-                else
-                {
-                    // Silinen resimleri modelden kaldırıyoruz
-                    foreach (var image in DeletedImages)
-                    {
-                        productImageUpdateVM.Images.Remove(image);
-                    }
-                    var jsonData2 = JsonConvert.SerializeObject(productImageUpdateVM);
-                    StringContent content2 = new StringContent(jsonData2, Encoding.UTF8, "application/json");
-                    var responseMessage2 = await client.PutAsync("https://localhost:44326/api/ProductImages", content2);
-                    if (responseMessage2.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
-                    }
-                    return View();
-                }
+                // Eğer işlem başarılı değilse..
+                if (!deleteResult) return BadRequest("Resim silme sırasında bir hata meydana geldi.");
 
-                
+                // Silinen resimler modelden kaldırılıyor..
+                foreach (var image in DeletedImages)
+                {
+                    productImageUpdateVM.Images.Remove(image);
+                }
             }
 
-            // Yüklenen dosyalar APIya gönderilmek üzere hazırlanıyor..
-            if (UploadedImages != null && UploadedImages.Count > 0)
+            // Yüklenen dosyalar var mı kontrol ediliyor..
+            if (UploadedImages != null && UploadedImages.Any())
             {
-                var client = _httpClientFactory.CreateClient();
+                var uploadedImagePaths = await UploadImagesAsync(client, UploadedImages);
+                if (uploadedImagePaths is null) return BadRequest("Resim yükleme sırasında bir hata meydana geldi.");
 
-                // Multipart form-data içeriği oluşturuluyor..
-                using var formContent = new MultipartFormDataContent();
+                productImageUpdateVM.Images.AddRange(uploadedImagePaths);
+            }
+            // Model apiye gönderilerek güncelleme yapılıyor..
+            var updateResult = await UpdateProductImageAsync(client, productImageUpdateVM);
+            if (!updateResult) return BadRequest("Güncelleme işlemi sırasında bir hata meydana geldi.");
 
-                // Yüklenen her dosya formDataya ekleniyor
-                foreach (var file in UploadedImages)
+            return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
+        }
+
+        private async Task<bool> DeleteImagesAsync(HttpClient client, List<string> deletedImages)
+        {
+            var jsonData = JsonConvert.SerializeObject(deletedImages);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("https://localhost:44326/api/ProductImages/DeleteImages", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        private async Task<List<string>> UploadImagesAsync(HttpClient client, List<IFormFile> uploadedImages)
+        {
+            using var formContent = new MultipartFormDataContent();
+            foreach (var file in uploadedImages)
+            {
+                if (file.Length > 0)
                 {
-                    if (file.Length > 0)
-                    {
-                        var streamContent = new StreamContent(file.OpenReadStream());
-                        streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
-                        formContent.Add(streamContent, "files", file.FileName);
-                    }
-                }
-
-                // Dosyalar apiya gönderiliyor..
-                var response = await client.PostAsync("https://localhost:44326/api/ProductImages/UploadFiles", formContent);
-                
-                if (response.IsSuccessStatusCode) // Dosyalar apiya başarıyla yüklendiyse..
-                {
-                    // Apidan dönen
-                    var data = await response.Content.ReadFromJsonAsync<List<string>>();
-                    if (data is not null) { productImageUpdateVM.Images.AddRange(data); }
-                    
-                    var jsonData2 = JsonConvert.SerializeObject(productImageUpdateVM);
-                    StringContent content2 = new StringContent(jsonData2, Encoding.UTF8, "application/json");
-                    var responseMessage2 = await client.PutAsync("https://localhost:44326/api/ProductImages", content2);
-                    if (responseMessage2.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
-                    }
-                    return View();
+                    var streamContent = new StreamContent(file.OpenReadStream());
+                    streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                    formContent.Add(streamContent, "files", file.FileName);
                 }
             }
-            return View();
+
+            var response = await client.PostAsync("https://localhost:44326/api/ProductImages/UploadFiles", formContent);
+            return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<List<string>>() : null;
+        }
+
+        private async Task<bool> UpdateProductImageAsync(HttpClient client, ProductImageUpdateVM productImageUpdateVM)
+        {
+            var jsonData = JsonConvert.SerializeObject(productImageUpdateVM);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var response = await client.PutAsync("https://localhost:44326/api/ProductImages", content);
+            return response.IsSuccessStatusCode;
         }
     }
 }
