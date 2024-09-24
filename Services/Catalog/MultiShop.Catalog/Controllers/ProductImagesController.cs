@@ -67,28 +67,6 @@ namespace MultiShop.Catalog.Controllers
 		}
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> UploadFile(IFormFile file)
-        {
-            // Dosya boyutu kontrol ediliyor..
-            if (file.Length > 10 * 1024 * 1024) // 10MB sınırı
-            {
-                return BadRequest("Dosya boyutu 10MB'tan büyük olamaz.");
-            }
-            // Dosya adı rastgele oluşturuluyor..
-            string randomFileName = _fileService.GenerateRandomFileName(file.FileName);
-
-            // Dosya yolu alınıyor..
-            string filePath = _fileService.GetFilePath(randomFileName, ImageDirectory.ProductCoverImages.ToString());
-
-            // Dosya kaydediliyor..
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-            return Ok(new { FileName = randomFileName, FilePath = filePath });
-        }
-
-        [HttpPost("[action]")]
         public async Task<IActionResult> UploadFiles(IFormFileCollection files)
         {
             // Eğer hiç dosya yoksa 400 döner..
@@ -145,5 +123,7 @@ namespace MultiShop.Catalog.Controllers
 
             return Ok();
         }
+
+        
     }
 }
