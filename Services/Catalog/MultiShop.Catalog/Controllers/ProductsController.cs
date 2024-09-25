@@ -60,6 +60,17 @@ namespace MultiShop.Catalog.Controllers
 			return NoContent();
 		}
 
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> DeleteProductByProductId(string id)
+        {
+            var response = await _productService.DeleteProductByProductIdAsync(id);
+            if (response)
+            {
+                return NoContent();
+            }
+            return BadRequest();
+        }
+
         [HttpPut]
 		public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProductDto)
 		{

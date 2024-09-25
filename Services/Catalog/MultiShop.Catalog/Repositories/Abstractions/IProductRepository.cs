@@ -13,5 +13,6 @@ namespace MultiShop.Catalog.Repositories.Abstractions
 		Task<List<Product>> GetFeaturedProductsAsync();
 
         Task<string> GetProductCoverImageByIdAsync(string id);
+		Task<bool> DeleteProductByProductIdAsync(string productId);
     }
 }

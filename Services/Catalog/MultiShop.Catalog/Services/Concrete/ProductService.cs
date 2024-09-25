@@ -29,7 +29,12 @@ namespace MultiShop.Catalog.Services.Concrete
 			await _productRepository.DeleteAsync(id);
 		}
 
-		public async Task<List<ResultProductDto>> GetAllProductsAsync()
+        public async Task<bool> DeleteProductByProductIdAsync(string productId)
+        {
+            return await _productRepository.DeleteProductByProductIdAsync(productId);
+        }
+
+        public async Task<List<ResultProductDto>> GetAllProductsAsync()
 		{
 			var products = await _productRepository.GetAllAsync();
 			return _mapper.Map<List<ResultProductDto>>(products);
