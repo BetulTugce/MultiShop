@@ -28,7 +28,8 @@ namespace MultiShop.Catalog.Repositories.Concrete
 
         public async Task<string> GetProductCoverImageByIdAsync(string id)
         {
-            var product = await _collection.Find(id).FirstOrDefaultAsync();
+            var filter = Builders<Product>.Filter.Eq(p => p.Id, id);
+            var product = await _collection.Find(filter).FirstOrDefaultAsync();
             return product.ImageUrl;
         }
 

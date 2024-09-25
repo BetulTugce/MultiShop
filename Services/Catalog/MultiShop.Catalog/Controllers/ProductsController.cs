@@ -121,8 +121,8 @@ namespace MultiShop.Catalog.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetProductCoverImage(string id)
+        [HttpGet("GetProductCoverImage/{id}")]
+        public async Task<IActionResult> GetProductCoverImage([FromRoute] string id)
         {
             var response = await _productService.GetProductCoverImageByIdAsync(id);
 
@@ -131,9 +131,12 @@ namespace MultiShop.Catalog.Controllers
                 return NotFound();
             }
 
-            byte[] imageBytes = await _fileService.GetImageAsync(response, ImageDirectory.ProductCoverImages.ToString());
+            string imgName = Path.GetFileName(response);
+            byte[] imageBytes = await _fileService.GetImageAsync(imgName, ImageDirectory.ProductCoverImages.ToString());
 
             return File(imageBytes, "image/jpeg"); // Resmi JPEG olarak döndürüyor..
+
+            //return Ok(Convert.ToBase64String(imageBytes));
         }
 
         [HttpPost("[action]")]

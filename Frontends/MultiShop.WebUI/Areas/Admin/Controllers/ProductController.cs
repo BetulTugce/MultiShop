@@ -6,6 +6,7 @@ using MultiShop.WebUI.Models.ViewModels.Catalog.Product;
 using MultiShop.WebUI.Models.ViewModels.Catalog.ProductDetail;
 using MultiShop.WebUI.Models.ViewModels.Catalog.ProductImage;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
@@ -194,8 +195,23 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var value = JsonConvert.DeserializeObject<ProductUpdateVM>(jsonData);
-                return View(value);
+                var prodUpdateVM = JsonConvert.DeserializeObject<ProductUpdateVM>(jsonData);
+                if (prodUpdateVM.ImageUrl != null)
+                {
+                    var response = await client.GetAsync($"https://localhost:44326/api/Products/GetProductCoverImage/{prodUpdateVM.Id}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // İçerik okunuyor..
+                        var contentStream = await response.Content.ReadAsStreamAsync();
+
+                        // İçeriği byte dizisine dönüştürüyor..
+                        var imageBytes = new byte[contentStream.Length];
+                        await contentStream.ReadAsync(imageBytes, 0, imageBytes.Length);
+                        ViewBag.img = "data:image/jpeg;base64," + Convert.ToBase64String(imageBytes);
+                        return View(prodUpdateVM);
+                    }
+                }
+                
             }
             return View();
         }

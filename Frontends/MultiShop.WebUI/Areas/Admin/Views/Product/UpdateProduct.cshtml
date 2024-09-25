@@ -37,8 +37,8 @@
                         <label>Mevcut Kapak Fotoğrafı</label>
                         @if (Model.ImageUrl != null)
                         {
-                            @* <img src="data:image/jpeg;base64,@Model.Base64Images[i]" alt="Ürün Görseli" style="max-width:100px;" /> *@
-                            <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width:100px;"  />
+                            <img src="@ViewBag.img" alt="Ürün Görseli" style="max-width:100px;" />
+                            @* <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width:100px;"  /> *@
                             <input type="hidden" asp-for="ImageUrl" />
                         }
                         <br />
