@@ -1,5 +1,6 @@
 ﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.ProductImage
-@model ProductImageUpdateVM
+@* @model ProductImageUpdateVM *@
+@model dynamic
 
 <section class="content container-fluid">
     <div class="row">
@@ -7,13 +8,15 @@
             <div class="chart-box">
                 <div class="form-group">
                     <form method="post" enctype="multipart/form-data" asp-area="Admin" asp-action="UpdateProductImage" asp-controller="ProductImage">
-                        <input type="hidden" name="Id" value="@Model.Id" asp-for="Id" />
-                        <input type="hidden" name="ProductId" value="@Model.ProductId" asp-for="ProductId" />
+                        @* <input type="hidden" name="Id" value="@Model.Id" asp-for="Id" /> *@
+                        <input type="hidden" name="ProductImageUpdateVM.Id" value="@Model.ProductImageUpdateVM.Id" />
+                        @* <input type="hidden" name="ProductId" value="@Model.ProductId" asp-for="ProductId" /> *@
+                        <input type="hidden" name="ProductImageUpdateVM.ProductId" value="@Model.ProductImageUpdateVM.ProductId" />
 
                         <input type="file" class="form-control" name="UploadedImages" accept="image/*" multiple />
                         <br />
                         <label>Mevcut Görseller</label>
-                        @if (Model.Images != null && Model.Images.Count > 0)
+                        @if (Model.ProductImageUpdateVM.Images != null && Model.ProductImageUpdateVM.Images.Count > 0)
                         {
                             <ul>
                                 @* @foreach (var image in Model.Images)
@@ -21,15 +24,19 @@
                                     <li><img src="@image" alt="Ürün Görseli" style="max-width:100px;" /></li>
                                     <input type="hidden" asp-for="Images" value="@image" />
                                 } *@
-                                @for (int i = 0; i < Model.Images.Count; i++)
+                                @for (int i = 0; i < Model.Base64Images.Count; i++)
                                 {
                                     <li>
-                                        <img src="@Model.Images[i]" alt="Ürün Görseli" style="max-width:100px;" />
-                                        <input type="hidden" asp-for="Images" value="@Model.Images[i]" />
+                                        @* <img src="@Model.Images[i]" alt="Ürün Görseli" style="max-width:100px;" /> *@
+                                        <img src="data:image/jpeg;base64,@Model.Base64Images[i]" alt="Ürün Görseli" style="max-width:100px;" />
+                                        @* <input type="hidden" asp-for="Images" value="@Model.Images[i]" /> *@
+                                        @* <input type="hidden" value="@Model.ProductImageUpdateVM.Images[i]" /> *@
+                                        <!-- Modelin images listesindeki her öğe için bir hidden input -->
+                                        <input type="hidden" name="ProductImageUpdateVM.Images[@i]" value="@Model.ProductImageUpdateVM.Images[i]" />
 
                                         <!-- Silme checkbox'ı -->
                                         <label>
-                                            <input type="checkbox" name="DeletedImages" value="@Model.Images[i]" /> Sil
+                                            <input type="checkbox" name="DeletedImages" value="@Model.ProductImageUpdateVM.Images[i]" /> Sil
                                         </label>
                                     </li>
                                 }

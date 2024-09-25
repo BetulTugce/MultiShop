@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.ProductImageDtos;
+using MultiShop.Catalog.Entities;
 using MultiShop.Catalog.Enums;
 using MultiShop.Catalog.Services;
 using MultiShop.Catalog.Services.Abstractions;
+using MultiShop.Catalog.Services.Concrete;
 
 namespace MultiShop.Catalog.Controllers
 {
@@ -124,6 +126,23 @@ namespace MultiShop.Catalog.Controllers
             return Ok();
         }
 
-        
+        [AllowAnonymous]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> GetProductImagesBase64(List<string> imagePaths)
+        {
+            if (imagePaths == null)
+            {
+                return NotFound();
+            }
+
+            var imagesBase64 = new List<string>();
+            foreach (var imageName in imagePaths)
+            {
+                string imgName = Path.GetFileName(imageName);
+                byte[] imageBytes = await _fileService.GetImageAsync(imgName, ImageDirectory.ProductImages.ToString());
+                imagesBase64.Add(Convert.ToBase64String(imageBytes));
+            }
+            return Ok(imagesBase64); // Resimler base64 formatında JSON olarak döndürülüyor..
+        }
     }
 }

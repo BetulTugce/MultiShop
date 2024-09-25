@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MultiShop.WebUI.Models.ViewModels.Catalog.Product;
 using MultiShop.WebUI.Models.ViewModels.Catalog.ProductImage;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace MultiShop.WebUI.Areas.Admin.ViewComponents.ProductViewComponents
 {
@@ -26,7 +28,23 @@ namespace MultiShop.WebUI.Areas.Admin.ViewComponents.ProductViewComponents
                     ProductId = productImageVM.ProductId,
                     Id = productImageVM.Id
                 };
-                return View(value);
+                List<string> imgs = new List<string>();
+                if (value.Images is not null && value.Images.Any())
+                {
+                    var jsonDataImages = JsonConvert.SerializeObject(value.Images);
+                    var imagesContent = new StringContent(jsonDataImages, Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync("https://localhost:44326/api/ProductImages/GetProductImagesBase64", imagesContent);
+                    if (response.IsSuccessStatusCode) 
+                    {
+                        var responseContent = await response.Content.ReadAsStringAsync();
+
+                        // JSON verisi ProductVM modeline çeviriliyor..
+                        imgs = JsonConvert.DeserializeObject<List<string>>(responseContent);
+                    }
+                }
+
+                //return View(value);
+                return View(new { ProductImageUpdateVM = value, Base64Images = imgs }); // İki nesneyi bir arada gönderiyoruz
             }
             return View();
         }
