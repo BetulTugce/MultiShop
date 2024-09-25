@@ -12,8 +12,8 @@
                 <h4>@Model.Name</h4>
                 @* <p>Ürün ekleme işleminizi bu panelden gerçekleştirebilirsiniz.</p> *@
                 <div class="form-group">
-                    <form method="post">
-                        @* <input type="hidden" asp-for="Id" /> *@
+                    <form method="post" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id" />
                         <label>Ürün Adı</label>
                         <input type="text" class="form-control" asp-for="Name" />
                         <br />
@@ -31,7 +31,16 @@
                         <input type="checkbox" class="form-control" asp-for="IsFeatured" />
                         <br />
                         <label>Kapak Fotoğrafı</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        @* <input type="text" class="form-control" asp-for="ImageUrl" /> *@
+                        <input type="file" class="form-control" name="UploadedImage" accept="image/*" />
+                        <br />
+                        <label>Mevcut Kapak Fotoğrafı</label>
+                        @if (Model.ImageUrl != null)
+                        {
+                            @* <img src="data:image/jpeg;base64,@Model.Base64Images[i]" alt="Ürün Görseli" style="max-width:100px;" /> *@
+                            <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width:100px;"  />
+                            <input type="hidden" asp-for="ImageUrl" />
+                        }
                         <br />
                         <label>Açıklama</label>
                         <textarea rows="5" class="form-control" asp-for="Description"></textarea>

@@ -86,49 +86,48 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
                 if (uploadedImagePath is null) return BadRequest("Resim yükleme sırasında bir hata meydana geldi.");
 
                 prodCreateVM.ImageUrl = uploadedImagePath;
-            }
-
-            // productCreateVM modeli JSON formatına dönüştürülüyor..
-            var jsonData = JsonConvert.SerializeObject(prodCreateVM);
-            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("https://localhost:44326/api/Products", content);
-            if (response.IsSuccessStatusCode)
-            {
-                // Yanıtı okunuyor..
-                var responseContent = await response.Content.ReadAsStringAsync();
-
-                // JSON verisi ProductVM modeline çeviriliyor..
-                var productResponse = JsonConvert.DeserializeObject<ProductVM>(responseContent);
-                // Yüklenen dosyalar var mı kontrol ediliyor..
-                if (UploadedImages != null && UploadedImages.Any())
+                // productCreateVM modeli JSON formatına dönüştürülüyor..
+                var jsonData = JsonConvert.SerializeObject(prodCreateVM);
+                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("https://localhost:44326/api/Products", content);
+                if (response.IsSuccessStatusCode)
                 {
-                    var uploadedImagePaths = await UploadImagesAsync(client, UploadedImages);
-                    if (uploadedImagePaths is null) return BadRequest("Resim yükleme sırasında bir hata meydana geldi.");
-                    ProductImageCreateVM imageCreateVM = new ProductImageCreateVM()
+                    // Yanıtı okunuyor..
+                    var responseContent = await response.Content.ReadAsStringAsync();
+
+                    // JSON verisi ProductVM modeline çeviriliyor..
+                    var productResponse = JsonConvert.DeserializeObject<ProductVM>(responseContent);
+                    // Yüklenen dosyalar var mı kontrol ediliyor..
+                    if (UploadedImages != null && UploadedImages.Any())
                     {
-                        ProductId = productResponse.Id,
-                        Images = uploadedImagePaths
-                    };
-                    // imageCreateVM modeli JSON formatına dönüştürülüyor..
-                    var jsonData2 = JsonConvert.SerializeObject(imageCreateVM);
-                    StringContent content2 = new StringContent(jsonData2, Encoding.UTF8, "application/json");
-                    var response2 = await client.PostAsync("https://localhost:44326/api/ProductImages", content2);
+                        var uploadedImagePaths = await UploadImagesAsync(client, UploadedImages);
+                        if (uploadedImagePaths is null) return BadRequest("Resim yükleme sırasında bir hata meydana geldi.");
+                        ProductImageCreateVM imageCreateVM = new ProductImageCreateVM()
+                        {
+                            ProductId = productResponse.Id,
+                            Images = uploadedImagePaths
+                        };
+                        // imageCreateVM modeli JSON formatına dönüştürülüyor..
+                        var jsonData2 = JsonConvert.SerializeObject(imageCreateVM);
+                        StringContent content2 = new StringContent(jsonData2, Encoding.UTF8, "application/json");
+                        var response2 = await client.PostAsync("https://localhost:44326/api/ProductImages", content2);
 
-                    prodDetailCreateVM.ProductId = productResponse.Id;
+                        prodDetailCreateVM.ProductId = productResponse.Id;
 
-                    // productDetailCreateVM modeli JSON formatına dönüştürülüyor..
-                    var jsonData3 = JsonConvert.SerializeObject(prodDetailCreateVM);
-                    StringContent content3 = new StringContent(jsonData3, Encoding.UTF8, "application/json");
-                    var response3 = await client.PostAsync("https://localhost:44326/api/ProductDetails", content3);
+                        // productDetailCreateVM modeli JSON formatına dönüştürülüyor..
+                        var jsonData3 = JsonConvert.SerializeObject(prodDetailCreateVM);
+                        StringContent content3 = new StringContent(jsonData3, Encoding.UTF8, "application/json");
+                        var response3 = await client.PostAsync("https://localhost:44326/api/ProductDetails", content3);
 
+                    }
+
+                    return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
                 }
-
-                return RedirectToAction("GetProductsWithCategory", "Product", new { area = "Admin" });
-            }
-            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                //TODO: Login sayfasına yönlendirilecek..
-                return View();
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    //TODO: Login sayfasına yönlendirilecek..
+                    return View();
+                }
             }
             return View();
         }
@@ -203,9 +202,16 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
         [Route("UpdateProduct/{id}")]
         [HttpPost]
-        public async Task<IActionResult> UpdateProduct(ProductUpdateVM productUpdateVM)
+        public async Task<IActionResult> UpdateProduct(ProductUpdateVM productUpdateVM, IFormFile UploadedImage)
         {
             var client = _httpClientFactory.CreateClient();
+            if (UploadedImage is not null)
+            {
+                var uploadedImagePath = await UploadImageAsync(client, UploadedImage);
+                if (uploadedImagePath is null) return BadRequest("Resim yükleme sırasında bir hata meydana geldi.");
+
+                productUpdateVM.ImageUrl = uploadedImagePath;
+            }
             // productUpdateVM modeli JSON formatına dönüştürülüyor..
             var jsonData = JsonConvert.SerializeObject(productUpdateVM);
             StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
