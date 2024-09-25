@@ -57,6 +57,7 @@ builder.Services.AddScoped<ISpecialOfferRepository, SpecialOfferRepository>();
 builder.Services.AddScoped<IFeatureRepository, FeatureRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IAboutRepository, AboutRepository>();
+builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -67,6 +68,7 @@ builder.Services.AddScoped<ISpecialOfferService, SpecialOfferService>();
 builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IAboutService, AboutService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 
 // appsettings.json dosyasýndaki "DatabaseSettings" adlý kýsým, veritabaný ile ilgili yapýlandýrma ayarlarýný içeriyor. appsettings.json dosyasýnda bu alanýn keyini kullanarak DatabaseSettings adlý sýnýfa baðlýyor..
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
