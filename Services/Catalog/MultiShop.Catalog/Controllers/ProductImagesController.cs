@@ -43,8 +43,18 @@ namespace MultiShop.Catalog.Controllers
         [HttpGet("GetProductImageByProductId/{productId}")]
         public async Task<IActionResult> GetProductImageByProductId([FromRoute]string productId)
         {
-            var value = await _productImageService.GetProductImageByProductIdAsync(productId);
-            return Ok(value);
+            var product = await _productImageService.GetProductImageByProductIdAsync(productId);
+
+            var imagesBase64 = new List<string>();
+            foreach (var imageName in product.Images)
+            {
+                string imgName = Path.GetFileName(imageName);
+                byte[] imageBytes = await _fileService.GetImageAsync(imgName, ImageDirectory.ProductImages.ToString());
+                imagesBase64.Add("data:image/jpeg;base64," + Convert.ToBase64String(imageBytes));
+            }
+            product.Images = imagesBase64;
+
+            return Ok(product);
         }
 
         [HttpPost]
