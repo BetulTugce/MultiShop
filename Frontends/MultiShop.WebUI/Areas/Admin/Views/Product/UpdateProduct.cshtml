@@ -44,4 +44,6 @@
     </div>
 </section>
 
+@await Component.InvokeAsync("_ProductDetailUpdateFormComponentPartial", new { productId = Model.Id})
+
 @await Component.InvokeAsync("_ProductImageUpdateFormComponentPartial", new { productId = Model.Id})
