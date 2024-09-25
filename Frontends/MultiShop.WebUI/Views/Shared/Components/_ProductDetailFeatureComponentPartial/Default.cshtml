@@ -15,7 +15,7 @@
             @* TODO: Yorum için mikroservis oluşturulduğunda güncellenecek.. *@
             <small class="pt-1">(89 Reviews)</small>
         </div>
-        <h3 class="font-weight-semi-bold mb-4">@(Model.DiscountRate.HasValue && Model.DiscountRate > 0 ? (Model.Price - Model.Price * Model.DiscountRate / 100) : Model.Price) ₺</h3>
+        <h3 class="font-weight-semi-bold mb-4">@(Model.DiscountRate.HasValue && Model.DiscountRate > 0 ? string.Format("{0:F2}", Model.Price - (Model.Price * Model.DiscountRate / 100)) : string.Format("{0:F2}", Model.Price)) ₺</h3>
         <p class="mb-4">
             @Model.Description
         </p>
