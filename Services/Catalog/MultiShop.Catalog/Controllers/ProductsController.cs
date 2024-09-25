@@ -128,6 +128,16 @@ namespace MultiShop.Catalog.Controllers
             {
                 return NotFound();
             }
+
+            // Base URLi alır..
+            var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
+            foreach (var product in products)
+            {
+                // Her bir ürün için ImageUrli APIden tam URL olarak ayarlar..
+                product.ImageUrl = $"{baseUrl}/api/Products/GetProductCoverImage/{product.Id}";
+            }
+
             return Ok(products);
         }
 
