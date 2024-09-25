@@ -6,7 +6,9 @@
             <div class="chart-box">
                 @* <h4>Ürün Detayları</h4> *@
                 <div class="form-group">
-                    <form method="post">
+                    <form method="post" asp-area="Admin" asp-action="UpdateProductDetail" asp-controller="ProductDetail">
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <input type="hidden" name="ProductId" value="@Model.ProductId" />
                         <label>Detaylı Açıklama</label>
                         <textarea rows="5" class="form-control" asp-for="Description"></textarea>
                         <br />
