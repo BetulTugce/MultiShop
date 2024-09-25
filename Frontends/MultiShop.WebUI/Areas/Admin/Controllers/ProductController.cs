@@ -170,7 +170,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteProduct(string id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:44326/api/Products?id={id}");
+            //var responseMessage = await client.DeleteAsync($"https://localhost:44326/api/Products?id={id}");
+            var responseMessage = await client.DeleteAsync($"https://localhost:44326/api/Products/DeleteProductByProductId?id={id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 //return RedirectToAction("Index", "Product", new { area = "Admin" });
