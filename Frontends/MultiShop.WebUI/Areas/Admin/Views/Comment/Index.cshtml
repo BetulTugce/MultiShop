@@ -1,0 +1,54 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Comment.UserComment
+@model List<UserCommentListVM>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    int counter = 0;
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                @* <h4>Yorum Listesi</h4> *@
+                <div class="bs-example" data-example-id="bordered-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Email</th>
+                                <th>İçerik</th>
+                                <th>Ürün</th>
+                                <th>Puan</th>
+                                <th>Onaylandı mı?</th>
+                                <th>Oluşturulma Tarihi</th>
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Any())
+                            {
+                                foreach (var comment in Model)
+                                {
+                                    counter++;
+                                    <tr>
+                                        <th scope="row">@counter</th>
+                                        <td>@comment.Email</td>
+                                        <td>@(comment.Content.Length > 15 ? comment.Content.Substring(0, 15) : comment.Content)</td>
+                                        <td>@comment.Product.Name</td>
+                                        <td>@comment.Rating</td>
+                                        <td>@(comment.IsApproved ? "Onaylandı" : "Onaylanmadı")</td>
+                                        <td>@comment.CreatedDate.ToShortDateString()</td>
+                                        <td><a href="/Admin/Comment/UpdateComment/@comment.Id" class="btn btn-warning">Güncelle</a></td>
+                                        <td><a href="/Admin/Comment/DeleteComment/@comment.Id" class="btn btn-danger">Sil</a></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

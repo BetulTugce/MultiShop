@@ -68,6 +68,18 @@ namespace MultiShop.Comment.Controllers
 
         [AllowAnonymous]
         [HttpGet]
+        public async Task<IActionResult> GetComments()
+        {
+            var comments = _service.GetAll();
+            if (!comments.Any())
+            {
+                return NoContent();
+            }
+            return Ok(comments.Select(comment => (UserCommentDto) comment).ToList());
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetCommentById(int id)
         {
             UserComment comment = await _service.GetByIdAsync(id);
