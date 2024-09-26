@@ -37,6 +37,7 @@ namespace MultiShop.Comment.Abstract
 
         // Belirli bir nesnenin silinmesini sağlar.
         void Remove(T entity);
+        void Remove(int id);
 
         // Birden çok nesnenin silinmesini sağlar.
         void RemoveRange(IEnumerable<T> entities);

@@ -100,10 +100,13 @@ namespace MultiShop.Comment.Controllers
         }
 
         [HttpDelete]
-        public IActionResult RemoveComment(UserCommentDto dto)
+        //public IActionResult RemoveComment(UserCommentDto dto)
+        public IActionResult RemoveComment(int id)
         {
-            UserComment userComment = dto;
-            _service.Remove(userComment);
+            //UserComment userComment = dto;
+            //_service.Remove(userComment);
+
+            _service.Remove(id);
             return NoContent();
         }
 

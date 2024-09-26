@@ -74,6 +74,18 @@ namespace MultiShop.Comment.Concrete
             _unitOfWork.Commit();
         }
 
+        public void Remove(int id)
+        {
+            var entity = _dbSet.Find(id);
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity), "Entity not found.");
+            }
+
+            _dbSet.Remove(entity);
+            _context.SaveChanges();
+        }
+
         // Bir nesne koleksiyonunu veritabanından kaldırır.
         public void RemoveRange(IEnumerable<T> entities)
         {
