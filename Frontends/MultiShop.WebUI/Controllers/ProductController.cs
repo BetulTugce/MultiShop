@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MultiShop.WebUI.Models.ViewModels.Catalog.MultiProduct;
 
 namespace MultiShop.WebUI.Controllers
 {
@@ -13,10 +14,20 @@ namespace MultiShop.WebUI.Controllers
             return View();
         }
 
+        //public IActionResult ProductDetail(string id)
+        //{
+        //    ViewBag.Id = id;
+        //    return View();
+        //}
+        
         public IActionResult ProductDetail(string id)
         {
-            ViewBag.Id = id;
-            return View();
+            var model = new ProductDetailIdVM
+            {
+                ProductId = id
+            };
+            return View(model);
+
         }
     }
 }

@@ -14,10 +14,11 @@ namespace MultiShop.WebUI.ViewComponents.ProductDetailViewComponents
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string id) 
+        //[ResponseCache(Duration = 60)]
+        public async Task<IViewComponentResult> InvokeAsync(string productId) 
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:44326/api/ProductImages/GetProductImageByProductId/" + id);
+            var responseMessage = await client.GetAsync("https://localhost:44326/api/ProductImages/GetProductImagesBase64ByProductId/" + productId);
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();

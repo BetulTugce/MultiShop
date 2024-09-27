@@ -40,21 +40,34 @@ namespace MultiShop.Catalog.Controllers
 		}
 
         [AllowAnonymous]
-        [HttpGet("GetProductImageByProductId/{productId}")]
-        public async Task<IActionResult> GetProductImageByProductId([FromRoute]string productId)
+        [HttpGet("GetProductImagesBase64ByProductId/{productId}")]
+        public async Task<IActionResult> GetProductImagesBase64ByProductId(string productId)
         {
             var product = await _productImageService.GetProductImageByProductIdAsync(productId);
-
-            var imagesBase64 = new List<string>();
-            foreach (var imageName in product.Images)
+            if (product != null) 
             {
-                string imgName = Path.GetFileName(imageName);
-                byte[] imageBytes = await _fileService.GetImageAsync(imgName, ImageDirectory.ProductImages.ToString());
-                imagesBase64.Add("data:image/jpeg;base64," + Convert.ToBase64String(imageBytes));
-            }
-            product.Images = imagesBase64;
 
-            return Ok(product);
+                var imagesBase64 = new List<string>();
+                foreach (var imageName in product.Images)
+                {
+                    string imgName = Path.GetFileName(imageName);
+                    byte[] imageBytes = await _fileService.GetImageAsync(imgName, ImageDirectory.ProductImages.ToString());
+                    imagesBase64.Add("data:image/jpeg;base64," + Convert.ToBase64String(imageBytes));
+                }
+                product.Images = imagesBase64;
+
+                return Ok(product);
+            }
+            return BadRequest();
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet("GetProductImageByProductId/{productId}")]
+        public async Task<IActionResult> GetProductImageByProductId([FromRoute] string productId)
+        {
+            var value = await _productImageService.GetProductImageByProductIdAsync(productId);
+            return Ok(value);
         }
 
         [HttpPost]
