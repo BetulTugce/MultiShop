@@ -1,4 +1,6 @@
-﻿@{
+﻿@using MultiShop.WebUI.Models.ViewModels.Catalog.MultiProduct
+@model ProductDetailIdVM
+@{
     ViewData["Title"] = "ProductDetail";
     Layout = "~/Views/UILayout/_UILayout.cshtml";
 }
@@ -19,9 +21,9 @@
 <!-- Shop Detail Start -->
 <div class="container-fluid pb-5">
     <div class="row px-xl-5">
-        @await Component.InvokeAsync("_ProductDetailImageSliderComponentPartial", new { id = ViewBag.Id })
+        @await Component.InvokeAsync("_ProductDetailImageSliderComponentPartial", new { productId = Model.ProductId })
 
-        @await Component.InvokeAsync("_ProductDetailFeatureComponentPartial", new { id = ViewBag.Id })
+        @await Component.InvokeAsync("_ProductDetailFeatureComponentPartial", new { id = Model.ProductId })
     </div>
     <div class="row px-xl-5">
         <div class="col">
@@ -32,9 +34,9 @@
                     <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Değerlendirmeler (0)</a>
                 </div>
                 <div class="tab-content">
-                    @await Component.InvokeAsync("_ProductDetailDescriptionComponentPartial", new { productId = ViewBag.Id })
-                    @await Component.InvokeAsync("_ProductDetailInformationComponentPartial", new { productId = ViewBag.Id })
-                    @await Component.InvokeAsync("_ProductDetailReviewComponentPartial")
+                    @await Component.InvokeAsync("_ProductDetailDescriptionComponentPartial", new { productId = Model.ProductId })
+                    @await Component.InvokeAsync("_ProductDetailInformationComponentPartial", new { productId = Model.ProductId })
+                    @await Component.InvokeAsync("_ProductDetailReviewComponentPartial", new { productId = Model.ProductId })
                 </div>
             </div>
         </div>

@@ -23,9 +23,9 @@ namespace MultiShop.Comment.Controllers
 
         [AllowAnonymous]
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetCommentsByProductIdAsync([FromQuery] string productId, bool isApproved)
+        public async Task<IActionResult> GetCommentsByProductId([FromQuery] string productId, bool isApproved, int? rating)
         {
-            List<UserComment> response = await _service.GetCommentsByProductIdAsync(productId, isApproved);
+            List<UserComment> response = await _service.GetCommentsByProductIdAsync(productId, isApproved, rating);
             if (!response.Any())
             {
                 return NoContent();
@@ -52,7 +52,7 @@ namespace MultiShop.Comment.Controllers
 
         [AllowAnonymous]
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetCommentsByProductIdPageAndSizeAsync([FromQuery] string productId, bool isApproved, int page = 1, int size = 10)
+        public async Task<IActionResult> GetCommentsByProductIdPageAndSize([FromQuery] string productId, bool isApproved, int page = 1, int size = 10)
         {
             List<UserComment> response = await _service.GetCommentsByProductIdAsync(productId, isApproved, page, size);
             if (!response.Any())

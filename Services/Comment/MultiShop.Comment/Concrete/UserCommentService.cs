@@ -13,9 +13,12 @@ namespace MultiShop.Comment.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<UserComment>> GetCommentsByProductIdAsync(string productId, bool isApproved)
+        public async Task<List<UserComment>> GetCommentsByProductIdAsync(string productId, bool isApproved, int? rating)
         {
-            return await _context.UserComments.AsNoTracking().Where(i => i.ProductId == productId && i.IsApproved == isApproved).ToListAsync();
+            if(rating is not null)
+                return await _context.UserComments.AsNoTracking().Where(i => i.ProductId == productId && i.IsApproved == isApproved && i.Rating == rating).OrderByDescending(i => i.CreatedDate).ToListAsync();
+
+            return await _context.UserComments.AsNoTracking().Where(i => i.ProductId == productId && i.IsApproved == isApproved).OrderByDescending(i => i.CreatedDate).ToListAsync();
         }
 
         public async Task<List<UserComment>> GetCommentsByProductIdAsync(string productId, bool isApproved, int page, int size)
