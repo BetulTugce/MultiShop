@@ -22,7 +22,7 @@
                                 <th>Puan</th>
                                 <th>Onaylandı mı?</th>
                                 <th>Oluşturulma Tarihi</th>
-                                <th>Güncelle</th>
+                                <th>Görüntüle</th>
                                 <th>Sil</th>
                             </tr>
                         </thead>
@@ -35,14 +35,56 @@
                                     <tr>
                                         <th scope="row">@counter</th>
                                         <td>@comment.Email</td>
-                                        <td>@(comment.Content.Length > 15 ? comment.Content.Substring(0, 15) : comment.Content)</td>
+                                        <td>@(comment.Content.Length > 15 ? comment.Content.Substring(0, 15) + "..." : comment.Content)</td>
                                         <td>@comment.Product.Name</td>
                                         <td>@comment.Rating</td>
-                                        <td>@(comment.IsApproved ? "Onaylandı" : "Onaylanmadı")</td>
+                                        @* <td>@(comment.IsApproved ? "Onaylandı" : "Onaylanmadı")</td> *@
+                                        <td>
+                                            <form asp-controller="Comment" asp-action="UpdateComment" asp-area="Admin" method="post" style="display:inline;">
+                                                <input type="hidden" name="commentId" value="@comment.Id" />
+                                                @if (comment.IsApproved)
+                                                {
+                                                    <button type="submit" class="btn btn-dark">Onaylandı</button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="submit" class="btn btn-dark">Onaylanmadı</button>
+                                                }
+                                            </form>
+                                        </td>
                                         <td>@comment.CreatedDate.ToShortDateString()</td>
-                                        <td><a href="/Admin/Comment/UpdateComment/@comment.Id" class="btn btn-warning">Güncelle</a></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageModal_@comment.Id">
+                                                Görüntüle
+                                            </button>
+                                        </td>
                                         <td><a href="/Admin/Comment/DeleteComment/@comment.Id" class="btn btn-danger">Sil</a></td>
                                     </tr>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="messageModal_@comment.Id" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel_@comment.Id" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="messageModalLabel_@comment.Id">Subject: @comment.Product.Name</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p><strong>Oluşturulma Tarihi:</strong> @comment.CreatedDate.ToShortDateString()</p>
+                                                    <p><strong>Onay Durumu:</strong> @(comment.IsApproved ? "Onaylandı" : "Onaylanmadı")</p>
+                                                    <p><strong>Ad:</strong> @comment.Name</p>
+                                                    <p><strong>Email:</strong> @comment.Email</p>
+                                                    <p><strong>Değerlendirme puanı:</strong> @comment.Rating / 5</p>
+                                                    <p><strong>Görsel</strong> @(@comment.ImageUrl is not null ? comment.ImageUrl : "-")</p>
+                                                    <p><strong>İçerik:</strong> @comment.Content</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
                             }
                         </tbody>

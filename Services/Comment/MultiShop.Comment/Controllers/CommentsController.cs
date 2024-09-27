@@ -117,5 +117,12 @@ namespace MultiShop.Comment.Controllers
             _service.Update(userComment);
             return Ok();
         }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> MarkAsApproved(int id)
+        {
+            _service.MarkAsApproved(id);
+            return Ok();
+        }
     }
 }

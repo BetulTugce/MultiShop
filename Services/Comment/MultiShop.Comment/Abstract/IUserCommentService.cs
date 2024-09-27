@@ -6,5 +6,6 @@ namespace MultiShop.Comment.Abstract
     {
         Task<List<UserComment>> GetCommentsByProductIdAsync(string productId, bool isApproved);
         Task<List<UserComment>> GetCommentsByProductIdAsync(string productId, bool isApproved, int page, int size);
+        Task MarkAsApproved(int id);
     }
 }
