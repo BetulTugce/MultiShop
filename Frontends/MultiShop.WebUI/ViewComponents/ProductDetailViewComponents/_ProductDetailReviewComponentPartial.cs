@@ -16,6 +16,7 @@ namespace MultiShop.WebUI.ViewComponents.ProductDetailViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(string productId, int? rating)
         {
+            ViewBag.ProductId = productId;
             // HTTP istekleri için bir HttpClient oluşturuluyor..
             var client = _httpClientFactory.CreateClient();
             var url = $"https://localhost:44380/api/Comments/GetCommentsByProductId?productId={productId}&isApproved={true}";

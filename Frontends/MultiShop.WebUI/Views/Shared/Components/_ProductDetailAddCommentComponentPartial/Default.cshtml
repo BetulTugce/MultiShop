@@ -1,0 +1,70 @@
+﻿@using MultiShop.WebUI.Models.ViewModels.Comment.UserComment
+@model UserCommentCreateVM
+
+<div class="col-md-6">
+    <!-- TempDatadan gelen başarı veya hata mesajı gösteriliyor -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    <h4 class="mb-4">Bir yorum bırakın.</h4>
+    <small>E-posta adresiniz yayınlanmayacak. Doldurulması zorunlu alanlar * ile işaretlenmiştir.</small>
+    <div class="d-flex my-3">
+        <p class="mb-0 mr-2">Değerlendirme Puanınız * :</p>
+        <div class="text-primary" id="rating-stars">
+            <i class="far fa-star" onclick="rate(1)"></i>
+            <i class="far fa-star" onclick="rate(2)"></i>
+            <i class="far fa-star" onclick="rate(3)"></i>
+            <i class="far fa-star" onclick="rate(4)"></i>
+            <i class="far fa-star" onclick="rate(5)"></i>
+        </div>
+    </div>
+    
+    <form method="post" asp-controller="Comment" asp-action="CreateComment">
+        <!-- Gizli alan değerlendirme puanı için -->
+        <input type="hidden" id="Rating" name="Rating" asp-for="Rating">
+        <input type="hidden" id="ProductId" name="ProductId" asp-for="ProductId" value="@Model.ProductId">
+        <div class="form-group">
+            <label for="message">Yorumunuz *</label>
+            <textarea id="message" cols="30" rows="5" asp-for="Content" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="name">Adınız *</label>
+            <input type="text" asp-for=Name class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label for="email">E-Posta Adresiniz *</label>
+            <input type="email" asp-for=Email class="form-control" id="email">
+        </div>
+        <div class="form-group mb-0">
+            <input type="submit" value="Gönder" class="btn btn-primary px-3">
+        </div>
+    </form>
+</div>
+
+<script>
+    function rate(stars) {
+        // Yıldız simgelerini günceller..
+        const starElements = document.querySelectorAll("#rating-stars i");
+        starElements.forEach((star, index) => {
+            if (index < stars) {
+                star.classList.remove("far"); // Boş yıldız
+                star.classList.add("fas"); // Dolu yıldız
+            } else {
+                star.classList.remove("fas");
+                star.classList.add("far");
+            }
+        });
+
+        // Gizli inputa puanı yazar..
+        document.getElementById("Rating").value = stars;
+    }
+</script>
