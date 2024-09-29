@@ -1,10 +1,11 @@
 body {
-	margin:  0;
+	margin: 0;
+	background: #ccc;
 }
 .page-content {
 	width: 100%;
 	margin:  0 auto;
-	background: #75e2e9;
+	
 	display: flex;
 	display: -webkit-flex;
 	justify-content: center;

@@ -1,6 +1,4 @@
-﻿@using MultiShop.WebUI.Models.ViewModels.Identity.Register
-@model RegisterCreateVM
-@{
+﻿@{
     Layout = null;
 }
 
@@ -38,7 +36,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>MultiShop | Üye Ol</title>
+    <title>MultiShop | Giriş Yap</title>
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!-- Font-->
@@ -54,41 +52,23 @@
         <div class="form-v4-content">
             <div class="form-left">
                 <h2>MultiShop E-Ticaret</h2>
-                <p class="text-1">E-ticaretin bir numaralı adresi olan MultiShop'a şimdi üye ol ve indirim fırsatlarını yakala.</p>
-                <p class="text-2"><span>Zaten bir hesabın var mı?</span> Hemen giriş yap ve alışverişe başla!</p>
+                <p class="text-1">E-ticaretin bir numaralı adresi olan MultiShop'a hoşgeldiniz. İndirim fırsatlarını kaçırmadan alışverişe başlamak için hemen giriş yapın.</p>
+                <p class="text-2"><span>Henüz bir hesabın yok mu?</span> Hemen üye ol ve alışverişe başla!</p>
                 <div class="form-left-last">
-                    @* <input type="submit" name="account" class="account" value="Giriş Yap"> *@
-                    <a href="/Login/Index" class="account">Giriş Yap</a>
+                    @* <input type="submit" name="account" class="account" value="Hesap Oluştur"> *@
+                    <a href="/Register/Index" class="account">Hesap Oluştur</a>
                 </div>
             </div>
-            <form class="form-detail" id="registerForm" method="post">
-                <h2>Hesap oluşturun</h2>
-                <div class="form-group">
-                    <div class="form-row form-row-1">
-                        <label for="first_name">Ad</label>
-                        <input type="text" id="first_name" name="Name" class="input-text" asp-for="Name" required>
-                    </div>
-                    <div class="form-row form-row-1">
-                        <label for="last_name">Soyad</label>
-                        <input type="text" id="last_name" name="Surname" class="input-text" asp-for="Surname" required>
-                    </div>
-                </div>
+            <form class="form-detail" id="loginForm" method="post">
+                <h2>Giriş Yap</h2>
                 <div class="form-row">
                     <label for="your_username">Kullanıcı Adı</label>
-                    <input type="text" id="your_username" name="Username" class="input-text" asp-for="Username" required>
-                </div>
-                <div class="form-row">
-                    <label for="your_email">E-Posta</label>
-                    <input type="email" id="your_email" name="Email" class="input-text" asp-for="Email" required pattern="[^@@]+@@[^@@]+\.[a-zA-Z]{2,6}">
+                    <input type="text" id="your_username" name="Username" class="input-text" required>
                 </div>
                 <div class="form-group">
                     <div class="form-row form-row-1">
                         <label for="password">Parola</label>
-                        <input type="password" id="password" name="Password" class="input-text" asp-for="Password" required>
-                    </div>
-                    <div class="form-row form-row-1">
-                        <label for="confirm_password">Parolayı tekrar girin</label>
-                        <input type="password" id="confirm_password" name="ConfirmPassword" asp-for="ConfirmPassword" class="input-text" required>
+                        <input type="password" id="password" name="Password" class="input-text" required>
                     </div>
                 </div>
                 @* <div class="form-checkbox">
@@ -98,7 +78,7 @@
                 </label>
                 </div> *@
                 <div class="form-row-last">
-                    <input type="submit" name="register" class="register" value="ÜYE OL">
+                    <input type="submit" name="register" class="register" value="GİRİŞ YAP">
                 </div>
             </form>
 
@@ -109,53 +89,25 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#registerForm").validate({
+            $("#loginForm").validate({
                 rules: {
-                    Name: {
-                        required: true,
-                    },
-                    Surname: {
-                        required: true,
-                    },
                     Username: {
-                        required: true,
-                    },
-                    Email: {
-                        required: true,
-                        email: true
+                        required: true
                     },
                     Password: {
                         required: true,
                         minlength: 6,
                         pattern: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).+$/
-                    },
-                    ConfirmPassword: {
-                        required: true,
-                        equalTo: "#password"
                     }
                 },
                 messages: {
-                    Name: {
-                        required: "Lütfen adınızı giriniz."
-                    },
-                    Surname: {
-                        required: "Lütfen soyadınızı giriniz."
-                    },
                     Username: {
                         required: "Lütfen bir kullanıcı adı giriniz."
-                    },
-                    Email: {
-                        required: "Lütfen e-posta adresinizi giriniz.",
-                        email: "Geçerli bir e-posta adresi giriniz."
                     },
                     Password: {
                         required: "Lütfen bir parola giriniz.",
                         minlength: "Parolanız en az 6 karakter olmalıdır."
                         pattern: "Parolanız en az bir büyük harf, bir rakam ve bir özel karakter içermelidir."
-                    },
-                    ConfirmPassword: {
-                        required: "Lütfen parolayı tekrar giriniz.",
-                        equalTo: "Parolalar eşleşmiyor."
                     }
                 },
                 errorPlacement: function (error, element) {
