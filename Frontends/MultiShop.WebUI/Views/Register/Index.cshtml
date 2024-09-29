@@ -1,109 +1,163 @@
-﻿
+﻿@using MultiShop.WebUI.Models.ViewModels.Identity.Register
+@model RegisterCreateVM
 @{
     Layout = null;
 }
 
+<style>
+    label.error {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    input.error-highlight {
+        border: 2px solid red;
+    }
+</style>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>Form-v4 by Colorlib</title>
-	<!-- Mobile Specific Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<!-- Font-->
-	<link rel="stylesheet" type="text/css" href="~/colorlib-regform-30/css/opensans-font.css">
-	<link rel="stylesheet" type="text/css" href="~/colorlib-regform-30/fonts/line-awesome/css/line-awesome.min.css">
-	<!-- Jquery -->
-	<link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
-	<!-- Main Style Css -->
-	<link rel="stylesheet" href="~/colorlib-regform-30/css/style.css" />
+    <meta charset="utf-8">
+    <title>MultiShop | Üye Ol</title>
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Font-->
+    <link rel="stylesheet" type="text/css" href="~/colorlib-regform-30/css/opensans-font.css">
+    <link rel="stylesheet" type="text/css" href="~/colorlib-regform-30/fonts/line-awesome/css/line-awesome.min.css">
+    <!-- Jquery -->
+    <link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+    <!-- Main Style Css -->
+    <link rel="stylesheet" href="~/colorlib-regform-30/css/style.css" />
 </head>
 <body class="form-v4">
-	<div class="page-content">
-		<div class="form-v4-content">
-			<div class="form-left">
-				<h2>MultiShop E-Ticaret</h2>
-				<p class="text-1">E-ticaretin bir numaralı adresi olan MultiShop'a şimdi üye ol ve indirim fırsatlarını yakala.</p>
-				<p class="text-2"><span>Zaten bir hesabın var mı?</span> Hemen giriş yap ve alışverişe başla!</p>
-				<div class="form-left-last">
-					<input type="submit" name="account" class="account" value="Giriş Yap">
-				</div>
-			</div>
-			<form class="form-detail" action="#" method="post" id="myform">
-				<h2>Hesap oluşturun</h2>
-				<div class="form-group">
-					<div class="form-row form-row-1">
-						<label for="first_name">Ad</label>
-						<input type="text" name="first_name" id="first_name" class="input-text" required>
-					</div>
-					<div class="form-row form-row-1">
-						<label for="last_name">Soyad</label>
-						<input type="text" name="last_name" id="last_name" class="input-text" required>
-					</div>
-				</div>
-				<div class="form-row">
-					<label for="your_email">E-Posta</label>
-					<input type="text" name="your_email" id="your_email" class="input-text" required pattern="[^@@]+@@[^@@]+.[a-zA-Z]{2,6}">
-				</div>
-				<div class="form-group">
-					<div class="form-row form-row-1 ">
-						<label for="password">Parola</label>
-						<input type="password" name="password" id="password" class="input-text" required>
-					</div>
-					<div class="form-row form-row-1">
-						<label for="comfirm-password">Parolayı tekrar girin</label>
-						<input type="password" name="comfirm_password" id="comfirm_password" class="input-text" required>
-					</div>
-				</div>
-				<div class="form-checkbox">
-					<label class="container"><p><a href="#" class="text">Üyelik Koşulları</a>'ını okudum ve kabul ediyorum.</p>
-					  	<input type="checkbox" name="checkbox">
-					  	<span class="checkmark"></span>
-					</label>
-				</div>
-				<div class="form-row-last">
-					<input type="submit" name="register" class="register" value="ÜYE OL">
-				</div>
-			</form>
-		</div>
-	</div>
-	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-	<script>
-		// just for the demos, avoids form submit
-		jQuery.validator.setDefaults({
-		  	debug: true,
-		  	success:  function(label){
-        		label.attr('id', 'valid');
-   		 	},
-		});
-		$( "#myform" ).validate({
-		  	rules: {
-			    password: "required",
-		    	comfirm_password: {
-		      		equalTo: "#password"
-		    	}
-		  	},
-		  	messages: {
-		  		first_name: {
-		  			required: "Lütfen adınızı girin"
-		  		},
-		  		last_name: {
-		  			required: "Lütfen soyadınızı girin"
-		  		},
-		  		your_email: {
-		  			required: "Lütfen geçerli bir e-posta adresi girin"
-		  		},
-		  		password: {
-	  				required: "Lütfen bir parola girin"
-		  		},
-		  		comfirm_password: {
-		  			required: "Lütfen bir parola girin",
-		      		equalTo: "Parolalar eşleşmiyor!"
-		    	}
-		  	}
-		});
-	</script>
+    <div class="page-content">
+        <div class="form-v4-content">
+            <div class="form-left">
+                <h2>MultiShop E-Ticaret</h2>
+                <p class="text-1">E-ticaretin bir numaralı adresi olan MultiShop'a şimdi üye ol ve indirim fırsatlarını yakala.</p>
+                <p class="text-2"><span>Zaten bir hesabın var mı?</span> Hemen giriş yap ve alışverişe başla!</p>
+                <div class="form-left-last">
+                    <input type="submit" name="account" class="account" value="Giriş Yap">
+                </div>
+            </div>
+            <form class="form-detail" id="registerForm" method="post">
+                <h2>Hesap oluşturun</h2>
+                <div class="form-group">
+                    <div class="form-row form-row-1">
+                        <label for="first_name">Ad</label>
+                        <input type="text" id="first_name" name="Name" class="input-text" asp-for="Name" required>
+                    </div>
+                    <div class="form-row form-row-1">
+                        <label for="last_name">Soyad</label>
+                        <input type="text" id="last_name" name="Surname" class="input-text" asp-for="Surname" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="your_username">Kullanıcı Adı</label>
+                    <input type="text" id="your_username" name="Username" class="input-text" asp-for="Username" required>
+                </div>
+                <div class="form-row">
+                    <label for="your_email">E-Posta</label>
+                    <input type="email" id="your_email" name="Email" class="input-text" asp-for="Email" required pattern="[^@@]+@@[^@@]+\.[a-zA-Z]{2,6}">
+                </div>
+                <div class="form-group">
+                    <div class="form-row form-row-1">
+                        <label for="password">Parola</label>
+                        <input type="password" id="password" name="Password" class="input-text" asp-for="Password" required>
+                    </div>
+                    <div class="form-row form-row-1">
+                        <label for="confirm_password">Parolayı tekrar girin</label>
+                        <input type="password" id="confirm_password" name="ConfirmPassword" asp-for="ConfirmPassword" class="input-text" required>
+                    </div>
+                </div>
+                @* <div class="form-checkbox">
+                <label class="container"><p><a href="#" class="text">Üyelik Koşulları</a>'ını okudum ve kabul ediyorum.</p>
+                <input type="checkbox" name="checkbox">
+                <span class="checkmark"></span>
+                </label>
+                </div> *@
+                <div class="form-row-last">
+                    <input type="submit" name="register" class="register" value="ÜYE OL">
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#registerForm").validate({
+                rules: {
+                    Name: {
+                        required: true,
+                        minlength: 2
+                    },
+                    Surname: {
+                        required: true,
+                        minlength: 2
+                    },
+                    Username: {
+                        required: true,
+                        minlength: 5
+                    },
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 6,
+                        pattern: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).+$/
+                    },
+                    ConfirmPassword: {
+                        required: true,
+                        equalTo: "#password"
+                    }
+                },
+                messages: {
+                    Name: {
+                        required: "Lütfen adınızı giriniz.",
+                        minlength: "Adınız en az 2 karakter olmalıdır."
+                    },
+                    Surname: {
+                        required: "Lütfen soyadınızı giriniz.",
+                        minlength: "Soyadınız en az 2 karakter olmalıdır."
+                    },
+                    Username: {
+                        required: "Lütfen bir kullanıcı adı giriniz.",
+                        minlength: "Kullanıcı adınız en az 5 karakter olmalıdır."
+                    },
+                    Email: {
+                        required: "Lütfen e-posta adresinizi giriniz.",
+                        email: "Geçerli bir e-posta adresi giriniz."
+                    },
+                    Password: {
+                        required: "Lütfen bir parola giriniz.",
+                        minlength: "Parolanız en az 6 karakter olmalıdır."
+                        pattern: "Parolanız en az bir büyük harf, bir rakam ve bir özel karakter içermelidir."
+                    },
+                    ConfirmPassword: {
+                        required: "Lütfen parolayı tekrar giriniz.",
+                        equalTo: "Parolalar eşleşmiyor."
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element); // Hata mesajlarını inputun hemen altında gösterir..
+                },
+                highlight: function (element) {
+                    $(element).addClass('error-highlight'); // Hatalı alana ek bir sınıf ekler..
+                },
+                unhighlight: function (element) {
+                    $(element).removeClass('error-highlight'); // Hata kalkarsa sınıfı kaldırır..
+                }
+            });
+        });
+
+    </script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
