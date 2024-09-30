@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is an e-commerce application currently being developed with ASP.NET Core. It currently includes 6 microservices: **Catalog**, **Discount**, **Order**, **Cargo**, **Basket** and **IdentityServer**. 
+This project is an e-commerce application currently being developed with ASP.NET Core. It currently includes 7 microservices: **Catalog**, **Discount**, **Order**, **Cargo**, **Basket**, **Comment** and **IdentityServer**. 
 I will add more microservices in the future to make the project better and bigger.
 
 ### Microservices
@@ -151,6 +151,12 @@ In production environments, trusted certificates are necessary to ensure that br
     "ProductCollectionName": "Products",
     "ProductDetailCollectionName": "ProductDetails",
     "ProductImageCollectionName": "ProductImages",
+    "FeatureSliderCollectionName": "FeatureSliders",
+    "SpecialOfferCollectionName": "SpecialOffers",
+    "FeatureCollectionName": "Features",
+    "BrandCollectionName": "Brands",
+    "AboutCollectionName": "Abouts",
+    "ContactCollectionName": "Contacts",
     "ConnectionString": "your_connection_string",
     "DatabaseName": "MultiShopCatalogDb"
   },
@@ -233,6 +239,7 @@ The `appsettings.json` file is not included in the project as it contains sensit
 - **Presentation (WebApi)**:
   - [MediatR](https://www.nuget.org/packages/MediatR/) v12.4.0
   - [Swashbuckle.AspNetCore](https://www.nuget.org/packages/SwashBuckle.AspNetCore/) v6.4.0
+  - [Microsoft.EntityFrameworkCore.Design](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Design/) v8.0.8
   - [Microsoft.AspNetCore.Authentication.JwtBearer](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.JwtBearer/8.0.8) v8.0.8
 
 **Configuration (appsettings.json)**:
@@ -341,5 +348,41 @@ The `appsettings.json` file is not included in the project as it contains sensit
 }
 ```
 *Note: Adjust the `Host` and `Port` fields under `RedisSettings` according to your Redis server configuration. Also, replace **your_url** with the correct URL of your Identity Server, such as `https://localhost:5001` for a local development environment. This URL will be used for authentication and authorization.*
+
+*********
+
+#### Comment Microservice
+
+- **Database**: MS SQL Server
+- **Features**: Some CRUD operations for user comments.
+
+**Packages**:
+- [Microsoft.EntityFrameworkCore](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/) v8.0.8
+- [Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.SqlServer/) v8.0.8
+- [Microsoft.EntityFrameworkCore.Tools](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/) v8.0.8
+- [SwashBuckle.AspNetCore](https://www.nuget.org/packages/SwashBuckle.AspNetCore/) v6.4.0
+- [Microsoft.AspNetCore.Authentication.JwtBearer](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.JwtBearer/8.0.8) v8.0.8
+
+**Configuration (appsettings.json)**:
+
+The `appsettings.json` file is not included in the project as it contains sensitive information. Instead, you should create your own `appsettings.json` file with the following structure for MultiShop.Comment project:
+
+```json
+{
+  "ConnectionStrings": {
+    "MSSQLServerConnection": "Server={your_server};Database={your_database};User={your_username};Password={your_password};Trusted_Connection=False;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True;"
+  },
+  "IdentityServerUrl": "your_url",
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+
+```
+*Note: Replace **{your_server}**, **{your_database}**, **{your_username}**, and **{your_password}** with your actual SQL Server connection details. Also, replace **your_url** with the correct URL of your Identity Server, such as `https://localhost:5001` for a local development environment. This URL will be used for authentication and authorization.*
 
 *********
