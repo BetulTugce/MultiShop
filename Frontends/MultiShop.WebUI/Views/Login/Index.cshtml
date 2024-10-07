@@ -1,4 +1,6 @@
-﻿@{
+﻿@using MultiShop.WebUI.Models.ViewModels.Identity.Login
+@model LoginCreateVM
+@{
     Layout = null;
 }
 
@@ -63,12 +65,12 @@
                 <h2>Giriş Yap</h2>
                 <div class="form-row">
                     <label for="your_username">Kullanıcı Adı</label>
-                    <input type="text" id="your_username" name="Username" class="input-text" required>
+                    <input type="text" id="your_username" name="Username" class="input-text" asp-for="Username" required>
                 </div>
                 <div class="form-group">
                     <div class="form-row form-row-1">
                         <label for="password">Parola</label>
-                        <input type="password" id="password" name="Password" class="input-text" required>
+                        <input type="password" id="password" name="Password" class="input-text" asp-for="Password" required>
                     </div>
                 </div>
                 @* <div class="form-checkbox">
